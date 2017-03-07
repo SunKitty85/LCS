@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">LCS</string>
     <string name="action_settings">Settings</string>
+
+    /* fragment_main
+    ---------------- */
+
+    <string name="button_continue">Weiter</string>
+    <string name="title_activity_qanda_activity">qanda_activity</string>
 </resources>
