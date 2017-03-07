@@ -34,12 +34,12 @@ public class DBHelperClass extends SQLiteOpenHelper {
     private static final String COL_CARDS_RELEASE_DATE = "release_date";
 
     // Columns cards_done table
-    private static final String COL_CARDS_DONE_CARD_ID = "card_id";
-    private static final String COL_CARDS_DONE_DONE_DATETIME = "card_id";
-    private static final String COL_CARDS_DONE_CORRECT = "card_id";
+    private static final String COL_CARDS_DONE_CARD_ID = "card_done_card_id";
+    private static final String COL_CARDS_DONE_DONE_DATETIME = "card_done_datetime";
+    private static final String COL_CARDS_DONE_CORRECT = "card_done_correct";
 
     // Columns pulls table
-    private static final String COL_PULLS_POLLDATETIME = "card_id";
+    private static final String COL_PULLS_POLLDATETIME = "pulls_polldatetime";
 
     public DBHelperClass(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
