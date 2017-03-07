@@ -4,7 +4,7 @@ package sqlite.helper;
  * Created by moltox on 06.03.2017.
  */
 
-public class table_cards {
+public class Table_cards {
     int id;
     String question;
     String answer1;
@@ -14,9 +14,9 @@ public class table_cards {
     int releaseDate;
 
     // constructors ...
-    public table_cards()  {};
+    public Table_cards()  {};
 
-    public table_cards(String question,String answer1,String answer2,String answer3, String answer4,int releaseDate)  {
+    public Table_cards(String question,String answer1,String answer2,String answer3, String answer4,int releaseDate)  {
         this.question = question;
         this.answer1 = answer1;
         this.answer2 = answer2;
@@ -25,7 +25,7 @@ public class table_cards {
         this.releaseDate = releaseDate;
     }
 
-    public table_cards(int id, String question,String answer1,String answer2,String answer3, String answer4,int releaseDate)  {
+    public Table_cards(int id, String question,String answer1,String answer2,String answer3, String answer4,int releaseDate)  {
         this.id = id;
         this.question = question;
         this.answer1 = answer1;

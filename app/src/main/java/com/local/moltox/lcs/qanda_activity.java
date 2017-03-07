@@ -45,7 +45,12 @@ public class qanda_activity extends AppCompatActivity {
                                        }
 
         );
-
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+
+    }
 }
