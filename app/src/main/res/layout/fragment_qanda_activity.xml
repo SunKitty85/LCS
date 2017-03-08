@@ -17,13 +17,14 @@
             android:id="@+id/tv_qanda_frag"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Test Text"
+            android:text="Hier\n\nFrage"
+            android:textAlignment="center"
             />
         <Button
             android:id="@+id/btn_newrand"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="New Rand"
+            android:text="@string/button_new_card"
             />
 
     </LinearLayout>

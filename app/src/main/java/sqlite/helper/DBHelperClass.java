@@ -8,13 +8,17 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import android.util.Log;
 
+import java.sql.SQLInput;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by moltox on 04.03.2017.
  */
 
 public class DBHelperClass extends SQLiteOpenHelper {
-    private static final String TAG = "DbHelperClass.java";
-    private static final int DATABASE_VERSION = 1;
+    private static final String TAG = DBHelperClass.class.getName();
+    private static final int DATABASE_VERSION = 2;
     private static final String DATABASE_NAME = "LCS_DB.db";
 
     // Table Names
@@ -78,9 +82,9 @@ public class DBHelperClass extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS " + CREATE_TABLE_CARDS);
-        db.execSQL("DROP TABLE IF EXISTS " + CREATE_TABLE_CARDS_DONE);
-        db.execSQL("DROP TABLE IF EXISTS " + CREATE_TABLE_PULLS);
+        db.execSQL("DROP TABLE IF EXISTS " + CARDS_TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + CARDS_DONE_TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + PULLS_TABLE_NAME);
         onCreate(db);
         // TODO DBHelperClass onUpgrade richtig machen
     }
@@ -108,7 +112,7 @@ public class DBHelperClass extends SQLiteOpenHelper {
         String selectQuery =
                 "SELECT * FROM " + CARDS_TABLE_NAME + " WHERE "
                 + COL_COMMON_ID + " = " + card_id;
-        Log.e(TAG, selectQuery);
+        Log.v(TAG, selectQuery);
         Cursor cursor = db.rawQuery(selectQuery, null);
 
         if (cursor != null)  cursor.moveToFirst();
@@ -122,6 +126,32 @@ public class DBHelperClass extends SQLiteOpenHelper {
         card.setReleaseDate(cursor.getInt(cursor.getColumnIndex(COL_CARDS_RELEASE_DATE)));
 
         return card;
+    }
+
+    public List<Table_cards> getAllCards()  {
+        List<Table_cards> tableCards = new ArrayList<Table_cards>();
+        String selectQuery = "SELECT * FROM " + CARDS_TABLE_NAME;
+        Log.v(TAG, selectQuery);
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        if (cursor.moveToFirst())  {
+            do  {
+                Table_cards tc = new Table_cards();
+                tc.setId(cursor.getInt((cursor.getColumnIndex(COL_COMMON_ID))));
+                tc.setQuestion(cursor.getString(cursor.getColumnIndex(COL_CARDS_QUESTION)));
+                tableCards.add(tc);
+            } while (cursor.moveToNext());
+        }
+        return tableCards;
+    }
+
+    public int getCountCards()  {
+        String selectQuery = "SELECT * FROM " + CARDS_TABLE_NAME;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery,null);
+        int count = cursor.getCount();
+        Log.v(TAG, "Card Count: " + String.valueOf(count));
+        return count;
     }
 
     public void closeDB()  {

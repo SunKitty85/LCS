@@ -6,5 +6,9 @@
     ---------------- */
 
     <string name="button_continue">Weiter</string>
-    <string name="title_activity_qanda_activity">qanda_activity</string>
+
+    /* fragment qandaactivity
+    -------------------------- */
+    <string name="title_activity_qanda_activity">Fragen und Antworten</string>
+    <string name="button_new_card">Neue Karte ziehen</string>
 </resources>
