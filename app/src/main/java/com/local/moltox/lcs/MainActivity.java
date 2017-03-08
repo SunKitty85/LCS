@@ -15,7 +15,7 @@ import android.widget.TextView;
 public class MainActivity extends AppCompatActivity {
     View view;
     int count;
-    Button m_btn_continue;
+    Button m_btn_takeCard;
     TextView m_tv_main;
 
     @Override
@@ -35,9 +35,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        m_btn_continue = (Button)  findViewById(R.id.btn_continue);
         m_tv_main = (TextView) findViewById(R.id.id_tv_main);
-        m_btn_continue.setOnClickListener(new View.OnClickListener()  {
+        m_btn_takeCard = (Button)  findViewById(R.id.btn_takeCard);
+        m_btn_takeCard.setOnClickListener(new View.OnClickListener()  {
             public void onClick(View v)  {
                 callQandaActivity(v);
             }

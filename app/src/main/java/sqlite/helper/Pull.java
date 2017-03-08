@@ -4,17 +4,17 @@ package sqlite.helper;
  * Created by moltox on 06.03.2017.
  */
 
-public class table_pulls {
+public class Pull {
     int id;
     int pullDateTime;
 
-    public table_pulls() {}
+    public Pull() {}
 
-    public table_pulls(int pullDateTime)  {
+    public Pull(int pullDateTime)  {
         this.pullDateTime = pullDateTime;
     }
 
-    public table_pulls(int id, int pullDateTime)  {
+    public Pull(int id, int pullDateTime)  {
         this.id = id;
         this.pullDateTime = pullDateTime;
     }

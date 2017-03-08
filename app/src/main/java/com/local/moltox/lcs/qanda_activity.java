@@ -10,19 +10,24 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Random;
 
 import sqlite.helper.DBHelperClass;
-import sqlite.helper.Table_cards;
+import sqlite.helper.Card;
 
 
 public class qanda_activity extends AppCompatActivity {
     private static final String TAG = qanda_activity.class.getName();
     DBHelperClass db;
-    TextView tv_qanda_frag;
-    Button btn_newrand;
+    TextView tv_qanda_card_id;
+    TextView tv_qanda_card_question;
+    TextView tv_qanda_card_answer1;
+    TextView tv_qanda_card_answer2;
+    TextView tv_qanda_card_answer3;
+    TextView tv_qanda_card_answer4;
+
+    Button btn_newCard;
     long rand;
 
     @Override
@@ -39,25 +44,40 @@ public class qanda_activity extends AppCompatActivity {
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
+                insertTestCards();
                 showCardList();
 
             }
         });
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        tv_qanda_frag = (TextView) findViewById(R.id.tv_qanda_frag);
-        btn_newrand = (Button) findViewById(R.id.btn_newrand);
-        btn_newrand.setOnClickListener(new View.OnClickListener() {
+        tv_qanda_card_id = (TextView) findViewById(R.id.tv_qanda_card_id);
+        tv_qanda_card_question = (TextView) findViewById(R.id.tv_qanda_card_question);
+        tv_qanda_card_answer1 = (TextView) findViewById(R.id.tv_qanda_card_answer1);
+        tv_qanda_card_answer2 = (TextView) findViewById(R.id.tv_qanda_card_answer2);
+        tv_qanda_card_answer3 = (TextView) findViewById(R.id.tv_qanda_card_answer3);
+        tv_qanda_card_answer4 = (TextView) findViewById(R.id.tv_qanda_card_answer4);
+
+        btn_newCard = (Button) findViewById(R.id.btn_newCard);
+        btn_newCard.setOnClickListener(new View.OnClickListener() {
                                            @Override
                                            public void onClick(View v) {
                                                Random r = new Random();
                                                int countCards = db.getCountCards();
-                                               rand = r.nextInt(countCards - 1) + 1;
-                                               Log.v(TAG,"Random ist: " + String.valueOf(rand));
-                                               // insertTestCards();
-                                               showCard(rand);
+                                               Log.v(TAG, "Es gibt  " + countCards + " Cards");
+                                               if (countCards < 1) {
+                                                   insertTestCards();
+                                               } else {
+                                                   long cardid;
+                                                   do {
+                                                       rand = r.nextInt(1500);
+                                                       cardid = rand % countCards + 1;
+                                                       Log.v(TAG, "Random ist: " + String.valueOf(rand) +
+                                                               "\nCard ID ist: " + cardid);
+                                                   } while (cardid == 0);
+                                                   showCard(cardid);
+                                               }
                                            }
                                        }
-
         );
     }
 
@@ -73,35 +93,35 @@ public class qanda_activity extends AppCompatActivity {
         db.closeDB();
     }
 
-    private void insertTestCards() {
-
-
-        Table_cards card1 = new Table_cards("Q\nu\ne\ns\nt\ni\no\nn\n1_1", "Answer1_1", "Answer2_1", "Answer3_1", "Answer4_1", 20170307);
-        Table_cards card2 = new Table_cards("Question1_2", "Answer1_2", "Answer2_2", "Answer3_2", "Answer4_2", 20170308);
-        Table_cards card3 = new Table_cards("Question1_3", "Answer1_3", "Answer2_3", "Answer3_3", "Answer4_3", 20170309);
-        Table_cards card4 = new Table_cards("Question1_4", "Answer1_4", "Answer2_4", "Answer3_4", "Answer4_4", 20170310);
-
-        long card_id1 = db.createCard(card1);
-        long card_id2 = db.createCard(card2);
-        long card_id3 = db.createCard(card3);
-        long card_id4 = db.createCard(card4);
-
-        Log.v(TAG, "Inserted IDs: " + String.valueOf(card_id1) + " " + String.valueOf(card_id2) + " " +
-                String.valueOf(card_id3) + " " + String.valueOf(card_id4));
-
-    }
-
-    private void showCard(long id)  {
-        Table_cards card = db.getCard(id);
-        tv_qanda_frag.setText("Card ID" + card.getId() + "\nQuestion: " + card.getQuestion() + "\nAnswer 1: " + card.getAnswer1() + "\nRelease Date: " + card.getReleaseDate());
+    private void showCard(long id) {
+        Card card = db.getCard(id);
+        tv_qanda_card_id.setText("Card ID: " + card.getId() + "\nRelease Date: " + card.getReleaseDate());
+        tv_qanda_card_question.setText(R.string.tv_qanda_frag_card_question + " " + card.getQuestion());
+        tv_qanda_card_answer1.setText(R.string.tv_qanda_frag_card_answer1 + " " + card.getAnswer1());
+        tv_qanda_card_answer2.setText(R.string.tv_qanda_frag_card_answer2 + " " + card.getAnswer2());
+        tv_qanda_card_answer3.setText(R.string.tv_qanda_frag_card_answer3 + " " + card.getAnswer3());
+        tv_qanda_card_answer4.setText(R.string.tv_qanda_frag_card_answer4 + " " + card.getAnswer4());
     }
 
     private void showCardList() {
         Log.v(TAG, "Get all Cards");
-        List<Table_cards> allCards = db.getAllCards();
-        for (Table_cards tc : allCards) {
+        List<Card> allCards = db.getAllCards();
+        for (Card tc : allCards) {
             Log.v(TAG, "CARD: " + tc.getId() + " " + tc.getQuestion());
         }
     }
-}
 
+    // Debug only
+    private void insertTestCards() {
+        Card card1 = new Card("Question1_1", "Answer1_1", "Answer2_1", "Answer3_1", "Answer4_1", 20170307);
+        Card card2 = new Card("Question1_2", "Answer1_2", "Answer2_2", "Answer3_2", "Answer4_2", 20170308);
+        Card card3 = new Card("Question1_3", "Answer1_3", "Answer2_3", "Answer3_3", "Answer4_3", 20170309);
+        Card card4 = new Card("Question1_4", "Answer1_4", "Answer2_4", "Answer3_4", "Answer4_4", 20170310);
+        long card_id1 = db.createCard(card1);
+        long card_id2 = db.createCard(card2);
+        long card_id3 = db.createCard(card3);
+        long card_id4 = db.createCard(card4);
+        Log.v(TAG, "Inserted IDs: " + String.valueOf(card_id1) + " " + String.valueOf(card_id2) + " " +
+                String.valueOf(card_id3) + " " + String.valueOf(card_id4));
+    }
+}

@@ -4,22 +4,22 @@ package sqlite.helper;
  * Created by moltox on 06.03.2017.
  */
 
-public class table_cards_done {
+public class Cards_done {
     int id;
     int card_id;
     int Done_DateTime;
     boolean Correct;
 
     // constructors ...
-    public table_cards_done()  {}
+    public Cards_done()  {}
 
-    public table_cards_done(int card_id,int Done_DateTime,boolean Correct)  {
+    public Cards_done(int card_id, int Done_DateTime, boolean Correct)  {
         this.card_id = card_id;
         this.Done_DateTime = Done_DateTime;
         this.Correct = Correct;
     }
 
-    public table_cards_done(int id,int card_id,int Done_DateTime,boolean Correct)  {
+    public Cards_done(int id, int card_id, int Done_DateTime, boolean Correct)  {
         this.id = id;
         this.card_id = card_id;
         this.Done_DateTime = Done_DateTime;

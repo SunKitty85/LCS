@@ -24,9 +24,9 @@
             android:text="Hello LCS" />
 
         <Button
-            android:id="@+id/btn_continue"
+            android:id="@+id/btn_takeCard"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/button_continue" />
+            android:text="@string/button_takeCard" />
     </LinearLayout>
 </RelativeLayout>

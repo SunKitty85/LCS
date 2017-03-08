@@ -8,7 +8,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import android.util.Log;
 
-import java.sql.SQLInput;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,7 +17,7 @@ import java.util.List;
 
 public class DBHelperClass extends SQLiteOpenHelper {
     private static final String TAG = DBHelperClass.class.getName();
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 5;
     private static final String DATABASE_NAME = "LCS_DB.db";
 
     // Table Names
@@ -78,6 +77,7 @@ public class DBHelperClass extends SQLiteOpenHelper {
         db.execSQL(CREATE_TABLE_CARDS);
         db.execSQL(CREATE_TABLE_CARDS_DONE);
         db.execSQL(CREATE_TABLE_PULLS);
+
     }
 
     @Override
@@ -90,7 +90,7 @@ public class DBHelperClass extends SQLiteOpenHelper {
     }
 
     // Table Methods
-    public long createCard(Table_cards table_card)  {
+    public long createCard(Card table_card)  {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(COL_CARDS_QUESTION,table_card.getQuestion());
@@ -107,7 +107,7 @@ public class DBHelperClass extends SQLiteOpenHelper {
 
     // Fetching a special Card
 
-    public Table_cards getCard(long card_id)  {
+    public Card getCard(long card_id)  {
         SQLiteDatabase db = this.getReadableDatabase();
         String selectQuery =
                 "SELECT * FROM " + CARDS_TABLE_NAME + " WHERE "
@@ -116,7 +116,7 @@ public class DBHelperClass extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery(selectQuery, null);
 
         if (cursor != null)  cursor.moveToFirst();
-        Table_cards card = new Table_cards();
+        Card card = new Card();
         card.setId(cursor.getInt(cursor.getColumnIndex(COL_COMMON_ID)));
         card.setQuestion(cursor.getString(cursor.getColumnIndex((COL_CARDS_QUESTION))));
         card.setAnswer1(cursor.getString(cursor.getColumnIndex((COL_CARDS_ANSWER01))));
@@ -128,15 +128,15 @@ public class DBHelperClass extends SQLiteOpenHelper {
         return card;
     }
 
-    public List<Table_cards> getAllCards()  {
-        List<Table_cards> tableCards = new ArrayList<Table_cards>();
+    public List<Card> getAllCards()  {
+        List<Card> tableCards = new ArrayList<Card>();
         String selectQuery = "SELECT * FROM " + CARDS_TABLE_NAME;
         Log.v(TAG, selectQuery);
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
         if (cursor.moveToFirst())  {
             do  {
-                Table_cards tc = new Table_cards();
+                Card tc = new Card();
                 tc.setId(cursor.getInt((cursor.getColumnIndex(COL_COMMON_ID))));
                 tc.setQuestion(cursor.getString(cursor.getColumnIndex(COL_CARDS_QUESTION)));
                 tableCards.add(tc);
@@ -158,5 +158,8 @@ public class DBHelperClass extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         if (db != null && db.isOpen()) db.close();
     }
+
+
+
 
 }
