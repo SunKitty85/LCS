@@ -90,15 +90,15 @@ public class DBHelperClass extends SQLiteOpenHelper {
     }
 
     // Table Methods
-    public long createCard(Card table_card)  {
+    public long createCard(Card card)  {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(COL_CARDS_QUESTION,table_card.getQuestion());
-        values.put(COL_CARDS_ANSWER01,table_card.getAnswer1());
-        values.put(COL_CARDS_ANSWER02,table_card.getAnswer2());
-        values.put(COL_CARDS_ANSWER03,table_card.getAnswer3());
-        values.put(COL_CARDS_ANSWER04,table_card.getAnswer4());
-        values.put(COL_CARDS_RELEASE_DATE, table_card.getReleaseDate());
+        values.put(COL_CARDS_QUESTION,card.getQuestion());
+        values.put(COL_CARDS_ANSWER01,card.getAnswer1());
+        values.put(COL_CARDS_ANSWER02,card.getAnswer2());
+        values.put(COL_CARDS_ANSWER03,card.getAnswer3());
+        values.put(COL_CARDS_ANSWER04,card.getAnswer4());
+        values.put(COL_CARDS_RELEASE_DATE, card.getReleaseDate());
 
         long card_id = db.insert(CARDS_TABLE_NAME,null,values);
 

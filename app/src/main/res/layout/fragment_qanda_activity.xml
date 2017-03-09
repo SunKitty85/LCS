@@ -37,36 +37,18 @@
             android:textAlignment="center"
             />
 
-        <TextView
-            android:id="@+id/tv_qanda_card_answer2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/tv_qanda_frag_card_answer2"
-            android:textAlignment="center"
-            />
-
-        <TextView
-            android:id="@+id/tv_qanda_card_answer3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/tv_qanda_frag_card_answer3"
-            android:textAlignment="center"
-            />
-
-        <TextView
-            android:id="@+id/tv_qanda_card_answer4"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/tv_qanda_frag_card_answer4"
-            android:textAlignment="center"
-            />
-
-
         <Button
             android:id="@+id/btn_newCard"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/button_new_card"
+            />
+
+        <Button
+            android:id="@+id/btn_showAnswer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/button_answer"
             />
 
         <LinearLayout

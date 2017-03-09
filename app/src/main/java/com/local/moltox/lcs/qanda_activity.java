@@ -23,12 +23,11 @@ public class qanda_activity extends AppCompatActivity {
     TextView tv_qanda_card_id;
     TextView tv_qanda_card_question;
     TextView tv_qanda_card_answer1;
-    TextView tv_qanda_card_answer2;
-    TextView tv_qanda_card_answer3;
-    TextView tv_qanda_card_answer4;
 
     Button btn_newCard;
+    Button btn_Answer;
     long rand;
+    long cardid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,9 +52,6 @@ public class qanda_activity extends AppCompatActivity {
         tv_qanda_card_id = (TextView) findViewById(R.id.tv_qanda_card_id);
         tv_qanda_card_question = (TextView) findViewById(R.id.tv_qanda_card_question);
         tv_qanda_card_answer1 = (TextView) findViewById(R.id.tv_qanda_card_answer1);
-        tv_qanda_card_answer2 = (TextView) findViewById(R.id.tv_qanda_card_answer2);
-        tv_qanda_card_answer3 = (TextView) findViewById(R.id.tv_qanda_card_answer3);
-        tv_qanda_card_answer4 = (TextView) findViewById(R.id.tv_qanda_card_answer4);
 
         btn_newCard = (Button) findViewById(R.id.btn_newCard);
         btn_newCard.setOnClickListener(new View.OnClickListener() {
@@ -67,7 +63,7 @@ public class qanda_activity extends AppCompatActivity {
                                                if (countCards < 1) {
                                                    insertTestCards();
                                                } else {
-                                                   long cardid;
+
                                                    do {
                                                        rand = r.nextInt(1500);
                                                        cardid = rand % countCards + 1;
@@ -79,6 +75,13 @@ public class qanda_activity extends AppCompatActivity {
                                            }
                                        }
         );
+        btn_Answer = (Button) findViewById(R.id.btn_showAnswer);
+        btn_Answer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showCardAnswer(cardid);
+            }
+        });
     }
 
     @Override
@@ -95,12 +98,28 @@ public class qanda_activity extends AppCompatActivity {
 
     private void showCard(long id) {
         Card card = db.getCard(id);
-        tv_qanda_card_id.setText("Card ID: " + card.getId() + "\nRelease Date: " + card.getReleaseDate());
-        tv_qanda_card_question.setText(R.string.tv_qanda_frag_card_question + " " + card.getQuestion());
-        tv_qanda_card_answer1.setText(R.string.tv_qanda_frag_card_answer1 + " " + card.getAnswer1());
+        tv_qanda_card_id.setText("Card ID: " + String.valueOf(card.getId())
+                + "\nRelease Date: " + String.valueOf(card.getReleaseDate()));
+
+        tv_qanda_card_question.setText(getString(R.string.tv_qanda_frag_card_question) + card.getQuestion());
+
+        Log.v(TAG, "Card ID: " + String.valueOf(card.getId())
+                + "\nRelease Date: " + String.valueOf(card.getReleaseDate())
+                + "\nQuestion: " + card.getQuestion());
+
+    }
+
+    private void showCardAnswer(long id) {
+        Card card = db.getCard(id);
+        tv_qanda_card_answer1.setText(card.getAnswer1());
+        Log.v(TAG, "Card ID " + String.valueOf(card.getId())
+                + "\nAnswer 1: " + card.getQuestion()
+        );
+        /*
         tv_qanda_card_answer2.setText(R.string.tv_qanda_frag_card_answer2 + " " + card.getAnswer2());
         tv_qanda_card_answer3.setText(R.string.tv_qanda_frag_card_answer3 + " " + card.getAnswer3());
         tv_qanda_card_answer4.setText(R.string.tv_qanda_frag_card_answer4 + " " + card.getAnswer4());
+        */
     }
 
     private void showCardList() {
