@@ -70,7 +70,7 @@ public class qanda_activity extends AppCompatActivity {
                                                    long cardid;
                                                    do {
                                                        rand = r.nextInt(1500);
-                                                       cardid = rand % countCards + 1;
+                                                       cardid = rand % (countCards + 1);
                                                        Log.v(TAG, "Random ist: " + String.valueOf(rand) +
                                                                "\nCard ID ist: " + cardid);
                                                    } while (cardid == 0);
@@ -95,7 +95,10 @@ public class qanda_activity extends AppCompatActivity {
 
     private void showCard(long id) {
         Card card = db.getCard(id);
-        tv_qanda_card_id.setText("Card ID: " + card.getId() + "\nRelease Date: " + card.getReleaseDate());
+        tv_qanda_card_id.setText("Card ID: " + card.getId()
+                + "\nRelease Date: " + card.getReleaseDate()
+                + "\nKategorie ID: " + card.getCategory_id());
+
         tv_qanda_card_question.setText(R.string.tv_qanda_frag_card_question + " " + card.getQuestion());
         tv_qanda_card_answer1.setText(R.string.tv_qanda_frag_card_answer1 + " " + card.getAnswer1());
         tv_qanda_card_answer2.setText(R.string.tv_qanda_frag_card_answer2 + " " + card.getAnswer2());
@@ -113,10 +116,10 @@ public class qanda_activity extends AppCompatActivity {
 
     // Debug only
     private void insertTestCards() {
-        Card card1 = new Card("Question1_1", "Answer1_1", "Answer2_1", "Answer3_1", "Answer4_1", 20170307);
-        Card card2 = new Card("Question1_2", "Answer1_2", "Answer2_2", "Answer3_2", "Answer4_2", 20170308);
-        Card card3 = new Card("Question1_3", "Answer1_3", "Answer2_3", "Answer3_3", "Answer4_3", 20170309);
-        Card card4 = new Card("Question1_4", "Answer1_4", "Answer2_4", "Answer3_4", "Answer4_4", 20170310);
+        Card card1 = new Card("Question1_1", "Answer1_1", "Answer2_1", "Answer3_1", "Answer4_1", 20170307,1);
+        Card card2 = new Card("Question1_2", "Answer1_2", "Answer2_2", "Answer3_2", "Answer4_2", 20170308,1);
+        Card card3 = new Card("Question1_3", "Answer1_3", "Answer2_3", "Answer3_3", "Answer4_3", 20170309,1);
+        Card card4 = new Card("Question1_4", "Answer1_4", "Answer2_4", "Answer3_4", "Answer4_4", 20170310,1);
         long card_id1 = db.createCard(card1);
         long card_id2 = db.createCard(card2);
         long card_id3 = db.createCard(card3);

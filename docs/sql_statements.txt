@@ -1,0 +1,143 @@
+drop database if exists lcs;
+create database lcs;
+use lcs;
+
+create table tb_cards  (
+id int auto_increment,
+question text,
+answer1 text,
+answer2 text,
+answer3 text,
+answer4 text,
+releaseDate int,
+PRIMARY KEY (id));
+
+create table tb_pulls (
+id int auto_increment,
+polldatetime bigint,
+PRIMARY KEY (id));
+
+create table tb_cards_done (
+id int auto_increment,
+card_id int,
+done_datetime bigint,
+correct tinyint,
+PRIMARY KEY (id));
+
+
+
+Insert into tb_cards 
+(question,answer1,answer2,answer3,answer4,releaseDate)
+VALUES
+('Karte 1 Frage','Karte 1 Antwort 1','Karte 1 Antwort 2','Karte 1 Antwort 3'
+,'Karte 1 Antwort 4',20170310),
+('Karte 2 Frage','Karte 2 Antwort 1','Karte 2 Antwort 2','Karte 2 Antwort 3'
+,'Karte 2 Antwort 4',20170310)
+,('Karte 3 Frage','Karte 3 Antwort 1','Karte 3 Antwort 2','Karte 3 Antwort 3'
+,'Karte 3 Antwort 4',20170310),
+('Karte 4 Frage','Karte 4 Antwort 1','Karte 4 Antwort 2','Karte 4 Antwort 3'
+,'Karte 4 Antwort 4',20170310),
+('Karte 5 Frage','Karte 5 Antwort 1','Karte 5 Antwort 2','Karte 5 Antwort 3'
+,'Karte 5 Antwort 4',20170310);
+
+
+
+
+Insert into tb_cards_done
+(card_id,done_datetime,correct) 
+VALUES
+(1,201701010300,1),
+(2,201701020300,0),
+(3,201701030300,1),
+(4,201701040300,0),
+(5,201701050300,1),
+(5,201701060300,1),
+(4,201701070300,0),
+(3,201701080300,1),
+(2,201701090300,0),
+(1,201701100300,1);
+
+
+
+select tb_cards.id, question Frage,answer1 Antwort1,answer2 Antwort2,answer3 Antwort3,answer4 Antwort4,releaseDate Datum from tb_cards;
+
+
+SELECT tb_cards.id, question Frage,answer1 Antwort1,answer2 Antwort2,answer3 Antwort3,answer4 Antwort4,releaseDate Datum,
+tb_cards_done.id DoneID,tb_cards_done.card_id Card_ID,done_datetime FertigDatum,correct Richtig
+FROM
+tb_cards,tb_cards_done
+WHERE
+tb_cards.id = tb_cards_done.card_id
+ORDER BY
+correct DESC
+;
+
+/*
+
+
+SELECT tb_cards.id, question Frage,answer1 Antwort1,answer2 Antwort2,answer3 Antwort3,answer4 Antwort4,releaseDate Datum,
+tb_cards_done.id DoneID,tb_cards_done.card_id Card_ID,tb_cards_done.done_datetime FertigDatum,correct Richtig
+FROM
+tb_cards,tb_cards_done
+WHERE
+tb_cards.id = tb_cards_done.card_id
+# AND tb_cards_done.done_datetime > 201701050000
+# AND correct = 1
+# AND tb_cards.id = 1
+#ORDER BY
+#FertigDatum ASC
+;
+
+
+
+SELECT tb_cards.id, question Frage,answer1 Antwort1,answer2 Antwort2,answer3 Antwort3,answer4 Antwort4,releaseDate Datum,
+tb_cards_done.id DoneID,tb_cards_done.card_id Card_ID,max(tb_cards_done.done_datetime) Maxdatetime,correct Richtig
+FROM
+tb_cards,tb_cards_done
+WHERE
+tb_cards.id = tb_cards_done.card_id AND
+correct = 1 AND
+tb_cards.id = 1
+GROUP BY
+tb_cards_done.id
+;
+
+SELECT tb_cards.id, question Frage,answer1 Antwort1,answer2 Antwort2,answer3 Antwort3,answer4 Antwort4,releaseDate Datum,
+tb_cards_done.id DoneID,tb_cards_done.card_id Card_ID,tb_cards_done.done_datetime Maxdatetime,correct Richtig
+FROM
+tb_cards,tb_cards_done
+WHERE
+tb_cards.id = tb_cards_done.card_id AND
+correct = 1 AND
+tb_cards.id = 1
+GROUP BY
+tb_cards_done.id
+;
+
+CREATE VIEW cardsdone AS
+SELECT tb_cards.id, question Frage,answer1 Antwort1,answer2 Antwort2,answer3 Antwort3,answer4 Antwort4,releaseDate Datum,
+tb_cards_done.id DoneID,tb_cards_done.card_id Card_ID,tb_cards_done.done_datetime FertigDatum,correct Richtig
+FROM
+tb_cards,tb_cards_done
+WHERE
+tb_cards.id = tb_cards_done.card_id;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

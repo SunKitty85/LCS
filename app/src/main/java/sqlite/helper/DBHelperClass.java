@@ -24,6 +24,7 @@ public class DBHelperClass extends SQLiteOpenHelper {
     private static final String CARDS_TABLE_NAME = "tb_cards";
     private static final String CARDS_DONE_TABLE_NAME = "tb_cards_done";
     private static final String PULLS_TABLE_NAME = "tb_pulls";
+    private static final String CATEGORY_TABLE_NAME = "tb_category";
 
     // Common Column Names
     private static final String COL_COMMON_ID = "id";
@@ -35,14 +36,19 @@ public class DBHelperClass extends SQLiteOpenHelper {
     private static final String COL_CARDS_ANSWER03 = "answer03";
     private static final String COL_CARDS_ANSWER04 = "answer04";
     private static final String COL_CARDS_RELEASE_DATE = "release_date";
+    private static final String COL_CARDS_CATEGORY_ID = "categoryid";
 
     // Columns cards_done table
-    private static final String COL_CARDS_DONE_CARD_ID = "card_done_card_id";
-    private static final String COL_CARDS_DONE_DONE_DATETIME = "card_done_datetime";
-    private static final String COL_CARDS_DONE_CORRECT = "card_done_correct";
+    private static final String COL_CARDS_DONE_CARD_ID = "card_id";
+    private static final String COL_CARDS_DONE_DONE_DATETIME = "datetime";
+    private static final String COL_CARDS_DONE_CORRECT = "correct";
 
     // Columns pulls table
-    private static final String COL_PULLS_POLLDATETIME = "pulls_polldatetime";
+    private static final String COL_PULLS_POLLDATETIME = "polldatetime";
+
+    // Columns category table
+    private static final String COL_CATEGORY_CATEGORY = "category";
+    private static final String COL_CATEGORY_PICFILENAME = "picfilename";
 
     public DBHelperClass(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -56,7 +62,8 @@ public class DBHelperClass extends SQLiteOpenHelper {
                     + COL_CARDS_ANSWER02 + " text, "
                     + COL_CARDS_ANSWER03 + " text, "
                     + COL_CARDS_ANSWER04 + " text, "
-                    + COL_CARDS_RELEASE_DATE + " text)";
+                    + COL_CARDS_RELEASE_DATE + " text, "
+                    + COL_CARDS_CATEGORY_ID + " text)";
 
     private static final String CREATE_TABLE_CARDS_DONE =
             "CREATE TABLE " + CARDS_DONE_TABLE_NAME + " ("
@@ -70,6 +77,13 @@ public class DBHelperClass extends SQLiteOpenHelper {
                     + COL_COMMON_ID + " integer primary key, "
                     + COL_PULLS_POLLDATETIME + " integer)";
 
+    private static final String CREATE_TABLE_CATEGORY =
+            "CREATE TABLE " + CATEGORY_TABLE_NAME + " ("
+                    + COL_COMMON_ID + " integer primary key, "
+                    + COL_CATEGORY_CATEGORY + " text, "
+                    + COL_CATEGORY_PICFILENAME + " text)";
+
+
 
     @Override
     public void onCreate(SQLiteDatabase db) {
@@ -77,6 +91,7 @@ public class DBHelperClass extends SQLiteOpenHelper {
         db.execSQL(CREATE_TABLE_CARDS);
         db.execSQL(CREATE_TABLE_CARDS_DONE);
         db.execSQL(CREATE_TABLE_PULLS);
+        db.execSQL(CREATE_TABLE_CATEGORY);
 
     }
 
@@ -99,6 +114,7 @@ public class DBHelperClass extends SQLiteOpenHelper {
         values.put(COL_CARDS_ANSWER03,table_card.getAnswer3());
         values.put(COL_CARDS_ANSWER04,table_card.getAnswer4());
         values.put(COL_CARDS_RELEASE_DATE, table_card.getReleaseDate());
+        values.put(COL_CARDS_CATEGORY_ID, table_card.getCategory_id());
 
         long card_id = db.insert(CARDS_TABLE_NAME,null,values);
 
@@ -124,7 +140,7 @@ public class DBHelperClass extends SQLiteOpenHelper {
         card.setAnswer3(cursor.getString(cursor.getColumnIndex((COL_CARDS_ANSWER03))));
         card.setAnswer4(cursor.getString(cursor.getColumnIndex((COL_CARDS_ANSWER04))));
         card.setReleaseDate(cursor.getInt(cursor.getColumnIndex(COL_CARDS_RELEASE_DATE)));
-
+        card.setCategory_id(cursor.getInt(cursor.getColumnIndex(COL_CARDS_CATEGORY_ID)));
         return card;
     }
 
