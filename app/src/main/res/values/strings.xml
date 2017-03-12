@@ -17,6 +17,7 @@
     <string name="tv_qanda_frag_card_answer3">Antwort 3</string>
     <string name="tv_qanda_frag_card_answer4">Antwort 4</string>
     <string name="button_new_card">Neue Karte ziehen</string>
+    <string name="button_answer">Antwort anzeigen</string>
     <string name="button_correct">Richtig</string>
     <string name="button_not_correct">Falsch</string>
 </resources>
