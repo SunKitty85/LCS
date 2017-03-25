@@ -10,24 +10,21 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        >
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/tv_qanda_card_id"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/tv_qanda_frag_card_id"
-            android:textAlignment="center"
-            />
+            android:textAlignment="center" />
 
         <TextView
             android:id="@+id/tv_qanda_card_question"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/tv_qanda_frag_card_question"
-            android:textAlignment="center"
-            />
+            android:textAlignment="center" />
 
         <TextView
             android:id="@+id/tv_qanda_card_answer1"
@@ -35,41 +32,41 @@
             android:layout_height="wrap_content"
             android:text="@string/tv_qanda_frag_card_answer1"
             android:textAlignment="center"
-            />
+            android:visibility="gone" />
 
         <Button
             android:id="@+id/btn_newCard"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/button_new_card"
-            />
+            android:text="@string/button_new_card" />
 
         <Button
             android:id="@+id/btn_showAnswer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/button_answer"
-            />
+            android:text="@string/button_answer" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            >
-        <Button
-            android:id="@+id/btn_answer_correct"
-            android:layout_width="0dp"
-            android:layout_weight=".5"
-            android:layout_height="wrap_content"
-            android:text="@string/button_correct"
-            />
-        <Button
-            android:id="@+id/btn_answer_not_correct"
-            android:layout_width="0dp"
-            android:layout_weight=".5"
-            android:layout_height="wrap_content"
-            android:text="@string/button_not_correct"
-            />
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_answer_correct"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".5"
+                android:text="@string/button_correct" />
+
+            <Button
+                android:id="@+id/btn_answer_not_correct"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".5"
+                android:text="@string/button_not_correct" />
+
+
         </LinearLayout>
+
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

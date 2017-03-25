@@ -17,6 +17,7 @@ public class MainActivity extends AppCompatActivity {
     int count;
     Button m_btn_takeCard;
     TextView m_tv_main;
+    Button btn_debugActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +41,14 @@ public class MainActivity extends AppCompatActivity {
         m_btn_takeCard.setOnClickListener(new View.OnClickListener()  {
             public void onClick(View v)  {
                 callQandaActivity(v);
+            }
+        });
+
+        btn_debugActivity = (Button) findViewById(R.id.btn_debugActivity);
+        btn_debugActivity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                callDebugActivy(v);
             }
         });
     }
@@ -67,6 +76,11 @@ public class MainActivity extends AppCompatActivity {
 
     private void callQandaActivity(View view)  {
         Intent intent = new Intent(this,qanda_activity.class);
+        startActivity(intent);
+    }
+
+    private void callDebugActivy(View view)  {
+        Intent intent = new Intent(this,DebugActivity.class);
         startActivity(intent);
     }
 }

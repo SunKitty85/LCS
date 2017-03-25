@@ -3,6 +3,7 @@ package sqlite.helper;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
@@ -15,38 +16,38 @@ import java.util.List;
 
 public class DBHelperClass extends SQLiteOpenHelper {
     private static final String TAG = DBHelperClass.class.getName();
-    private static final int DATABASE_VERSION = 7;
-    private static final String DATABASE_NAME = "LCS_DB.db";
+    public static final int DATABASE_VERSION = 9;
+    public static final String DATABASE_NAME = "LCS_DB.db";
 
     // Table Names
-    private static final String CARDS_TABLE_NAME = "tb_cards";
-    private static final String CARDS_DONE_TABLE_NAME = "tb_cards_done";
-    private static final String PULLS_TABLE_NAME = "tb_pulls";
-    private static final String CATEGORY_TABLE_NAME = "tb_category";
+    public static final String CARDS_TABLE_NAME = "tb_cards";
+    public static final String CARDS_DONE_TABLE_NAME = "tb_cards_done";
+    public static final String PULLS_TABLE_NAME = "tb_pulls";
+    public static final String CATEGORY_TABLE_NAME = "tb_category";
 
     // Common Column Names
-    private static final String COL_COMMON_ID = "id";
+    public static final String COL_COMMON_ID = "id";
 
     // Columns cards Table
-    private static final String COL_CARDS_QUESTION = "question";
-    private static final String COL_CARDS_ANSWER01 = "answer01";
-    private static final String COL_CARDS_ANSWER02 = "answer02";
-    private static final String COL_CARDS_ANSWER03 = "answer03";
-    private static final String COL_CARDS_ANSWER04 = "answer04";
-    private static final String COL_CARDS_RELEASE_DATE = "release_date";
-    private static final String COL_CARDS_CATEGORY_ID = "categoryid";
+    public static final String COL_CARDS_QUESTION = "question";
+    public static final String COL_CARDS_ANSWER01 = "answer01";
+    public static final String COL_CARDS_ANSWER02 = "answer02";
+    public static final String COL_CARDS_ANSWER03 = "answer03";
+    public static final String COL_CARDS_ANSWER04 = "answer04";
+    public static final String COL_CARDS_RELEASE_DATE = "release_date";
+    public static final String COL_CARDS_CATEGORY_ID = "categoryid";
 
     // Columns cards_done table
-    private static final String COL_CARDS_DONE_CARD_ID = "card_id";
-    private static final String COL_CARDS_DONE_DONE_DATETIME = "datetime";
-    private static final String COL_CARDS_DONE_CORRECT = "correct";
+    public static final String COL_CARDS_DONE_CARD_ID = "card_id";
+    public static final String COL_CARDS_DONE_DATETIME_CORRECT = "datetime_correct";
+    public static final String COL_CARDS_DONE_DATETIME_INCORRECT = "datetime_incorrect";
 
     // Columns pulls table
-    private static final String COL_PULLS_POLLDATETIME = "polldatetime";
+    public static final String COL_PULLS_POLLDATETIME = "polldatetime";
 
     // Columns category table
-    private static final String COL_CATEGORY_CATEGORY = "category";
-    private static final String COL_CATEGORY_PICFILENAME = "picfilename";
+    public static final String COL_CATEGORY_CATEGORY = "category";
+    public static final String COL_CATEGORY_PICFILENAME = "picfilename";
 
     public DBHelperClass(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -67,8 +68,8 @@ public class DBHelperClass extends SQLiteOpenHelper {
             "CREATE TABLE " + CARDS_DONE_TABLE_NAME + " ("
                     + COL_COMMON_ID + " integer primary key, "
                     + COL_CARDS_DONE_CARD_ID + " integer, "
-                    + COL_CARDS_DONE_DONE_DATETIME + " integer, "
-                    + COL_CARDS_DONE_CORRECT + " integer)";
+                    + COL_CARDS_DONE_DATETIME_CORRECT + " integer, "
+                    + COL_CARDS_DONE_DATETIME_INCORRECT + " integer)";
 
     private static final String CREATE_TABLE_PULLS =
             "CREATE TABLE " + PULLS_TABLE_NAME + " ("
@@ -95,9 +96,13 @@ public class DBHelperClass extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        Log.v(TAG, "onUpgrade: DROPPING ALL TABLES NOW!");
         db.execSQL("DROP TABLE IF EXISTS " + CARDS_TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + CARDS_DONE_TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + PULLS_TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + CATEGORY_TABLE_NAME);
+        Log.v(TAG, "onUpgrade: DROPPED ALL TABLES!");
+        Log.v(TAG, "Creating new Database");
         onCreate(db);
         // TODO DBHelperClass onUpgrade richtig machen
     }
@@ -113,13 +118,23 @@ public class DBHelperClass extends SQLiteOpenHelper {
         values.put(COL_CARDS_ANSWER04,table_card.getAnswer4());
         values.put(COL_CARDS_RELEASE_DATE, table_card.getReleaseDate());
         values.put(COL_CARDS_CATEGORY_ID, table_card.getCategory_id());
-
         long card_id = db.insert(CARDS_TABLE_NAME,null,values);
-
         return card_id;
     }
 
+    public long createCard_DoneRow(Cards_done done_card)  {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COL_CARDS_DONE_CARD_ID,done_card.getCard_id());
+        values.put(COL_CARDS_DONE_DATETIME_CORRECT,done_card.getDone_DateTime_Correct());
+        values.put(COL_CARDS_DONE_DATETIME_INCORRECT,done_card.getDone_DateTime_Incorrect());
+        long card_done_ID = db.insert(CARDS_DONE_TABLE_NAME,null,values);
+        return card_done_ID;
+    }
+
+
     // Fetching a special Card
+    // *******************************************************************
 
     public Card getCard(long card_id)  {
         SQLiteDatabase db = this.getReadableDatabase();
@@ -136,7 +151,6 @@ public class DBHelperClass extends SQLiteOpenHelper {
         Log.v(TAG, "Cursor Count: " + cursor.getCount() + "\nCursor pos: " + cursor.getPosition() );
         Card card = new Card();
         card.setId(cursor.getInt(cursor.getColumnIndex(COL_COMMON_ID)));
-
         card.setQuestion(cursor.getString(cursor.getColumnIndex((COL_CARDS_QUESTION))));
         card.setAnswer1(cursor.getString(cursor.getColumnIndex((COL_CARDS_ANSWER01))));
         card.setAnswer2(cursor.getString(cursor.getColumnIndex((COL_CARDS_ANSWER02))));
@@ -144,9 +158,11 @@ public class DBHelperClass extends SQLiteOpenHelper {
         card.setAnswer4(cursor.getString(cursor.getColumnIndex((COL_CARDS_ANSWER04))));
         card.setReleaseDate(cursor.getInt(cursor.getColumnIndex(COL_CARDS_RELEASE_DATE)));
         card.setCategory_id(cursor.getInt(cursor.getColumnIndex(COL_CARDS_CATEGORY_ID)));
-
         return card;
     }
+
+    // Fetching all cards
+    // ***************************************************************************
 
     public List<Card> getAllCards()  {
         List<Card> tableCards = new ArrayList<Card>();
@@ -165,6 +181,15 @@ public class DBHelperClass extends SQLiteOpenHelper {
         return tableCards;
     }
 
+    public void showCardListAsLog() {
+        Log.v(TAG, "Get all Cards");
+        List<Card> allCards = this.getAllCards();
+        for (Card tc : allCards) {
+            Log.v(TAG, "CARD: " + tc.getId() + " " + tc.getQuestion());
+        }
+    }
+
+
     public int getCountCards()  {
         String selectQuery = "SELECT * FROM " + CARDS_TABLE_NAME;
         SQLiteDatabase db = this.getReadableDatabase();
@@ -172,6 +197,71 @@ public class DBHelperClass extends SQLiteOpenHelper {
         int count = cursor.getCount();
         Log.v(TAG, "Card Count: " + String.valueOf(count));
         return count;
+    }
+
+
+    public List<Cards_done> getAllCards_Done_Table()  {
+        List<Cards_done> tableCards_Done = new ArrayList<Cards_done>();
+        String selectQuery = "SELECT * FROM " + CARDS_DONE_TABLE_NAME;
+        Log.v(TAG, selectQuery);
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        if (cursor.moveToFirst())  {
+            do  {
+                Cards_done dc = new Cards_done();
+                dc.setId(cursor.getInt(cursor.getColumnIndex(COL_COMMON_ID)));
+                dc.setCard_id(cursor.getLong(cursor.getColumnIndex(COL_CARDS_DONE_CARD_ID)));
+                tableCards_Done.add(dc);
+            } while (cursor.moveToNext());
+        }
+        return tableCards_Done;
+    }
+
+    public void showDone_CardListAsLog() {
+        Log.v(TAG, "Get all Done_Cards");
+        List<Cards_done> allCards = this.getAllCards_Done_Table();
+        for (Cards_done dc : allCards) {
+            Log.v(TAG, "ID: " + dc.getId() + "\nCard ID: " + dc.getCard_id() + "\n" );
+        }
+    }
+
+    public void selectAllOfTabletoLog(String tableName)  {
+        String selectQuery = "SELECT * FROM " + tableName;
+        Log.v(TAG, selectQuery);
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        cursor.moveToFirst();
+        String cursorString = DatabaseUtils.dumpCursorToString(cursor);
+        Log.v(TAG,"dumpCursortoString: \n" + cursorString);
+    }
+
+    public void dumpQuerytoLog(String query)  {
+        Log.v(TAG, query);
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+        cursor.moveToFirst();
+        String cursorString = DatabaseUtils.dumpCursorToString(cursor);
+        Log.v(TAG,"dumpCursortoString: \n" + cursorString);
+    }
+
+    public String dumpQuerytoString(String query)  {
+        Log.v(TAG, query);
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+        cursor.moveToFirst();
+        String cursorString = DatabaseUtils.dumpCursorToString(cursor);
+        return cursorString;
+    }
+
+    public void dumpQuerytoSystemout(String query)  {
+        Log.v(TAG, query);
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+        cursor.moveToFirst();
+        Log.v(TAG, "Rows: " + cursor.getCount() + "\nColumns: " + cursor.getColumnCount());
+        DatabaseUtils.dumpCursor(cursor);
+        //String cursorString = DatabaseUtils.dumpCursorToString(cursor);
+        // Log.v(TAG,"dumpCursortoString: \n" + cursorString);
     }
 
     public void closeDB()  {
