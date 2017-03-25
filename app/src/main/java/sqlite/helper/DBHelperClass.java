@@ -5,9 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-
 import android.util.Log;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +15,7 @@ import java.util.List;
 
 public class DBHelperClass extends SQLiteOpenHelper {
     private static final String TAG = DBHelperClass.class.getName();
-    private static final int DATABASE_VERSION = 5;
+    private static final int DATABASE_VERSION = 7;
     private static final String DATABASE_NAME = "LCS_DB.db";
 
     // Table Names
@@ -131,9 +129,14 @@ public class DBHelperClass extends SQLiteOpenHelper {
         Log.v(TAG, selectQuery);
         Cursor cursor = db.rawQuery(selectQuery, null);
 
-        if (cursor != null)  cursor.moveToFirst();
+        if (cursor != null)   {
+            cursor.moveToFirst();
+            Log.v(TAG, "Moved Cursor to first");
+        }
+        Log.v(TAG, "Cursor Count: " + cursor.getCount() + "\nCursor pos: " + cursor.getPosition() );
         Card card = new Card();
         card.setId(cursor.getInt(cursor.getColumnIndex(COL_COMMON_ID)));
+
         card.setQuestion(cursor.getString(cursor.getColumnIndex((COL_CARDS_QUESTION))));
         card.setAnswer1(cursor.getString(cursor.getColumnIndex((COL_CARDS_ANSWER01))));
         card.setAnswer2(cursor.getString(cursor.getColumnIndex((COL_CARDS_ANSWER02))));
@@ -141,6 +144,7 @@ public class DBHelperClass extends SQLiteOpenHelper {
         card.setAnswer4(cursor.getString(cursor.getColumnIndex((COL_CARDS_ANSWER04))));
         card.setReleaseDate(cursor.getInt(cursor.getColumnIndex(COL_CARDS_RELEASE_DATE)));
         card.setCategory_id(cursor.getInt(cursor.getColumnIndex(COL_CARDS_CATEGORY_ID)));
+
         return card;
     }
 

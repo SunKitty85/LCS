@@ -23,16 +23,13 @@ public class qanda_activity extends AppCompatActivity {
     TextView tv_qanda_card_id;
     TextView tv_qanda_card_question;
     TextView tv_qanda_card_answer1;
-    TextView tv_qanda_card_answer2;
-    TextView tv_qanda_card_answer3;
-    TextView tv_qanda_card_answer4;
+
 
     Button btn_newCard;
     long rand;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_qanda_activity);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -46,16 +43,13 @@ public class qanda_activity extends AppCompatActivity {
                         .setAction("Action", null).show();
                 insertTestCards();
                 showCardList();
-
             }
         });
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         tv_qanda_card_id = (TextView) findViewById(R.id.tv_qanda_card_id);
         tv_qanda_card_question = (TextView) findViewById(R.id.tv_qanda_card_question);
         tv_qanda_card_answer1 = (TextView) findViewById(R.id.tv_qanda_card_answer1);
-        tv_qanda_card_answer2 = (TextView) findViewById(R.id.tv_qanda_card_answer2);
-        tv_qanda_card_answer3 = (TextView) findViewById(R.id.tv_qanda_card_answer3);
-        tv_qanda_card_answer4 = (TextView) findViewById(R.id.tv_qanda_card_answer4);
+
 
         btn_newCard = (Button) findViewById(R.id.btn_newCard);
         btn_newCard.setOnClickListener(new View.OnClickListener() {
@@ -99,11 +93,9 @@ public class qanda_activity extends AppCompatActivity {
                 + "\nRelease Date: " + card.getReleaseDate()
                 + "\nKategorie ID: " + card.getCategory_id());
 
-        tv_qanda_card_question.setText(R.string.tv_qanda_frag_card_question + " " + card.getQuestion());
-        tv_qanda_card_answer1.setText(R.string.tv_qanda_frag_card_answer1 + " " + card.getAnswer1());
-        tv_qanda_card_answer2.setText(R.string.tv_qanda_frag_card_answer2 + " " + card.getAnswer2());
-        tv_qanda_card_answer3.setText(R.string.tv_qanda_frag_card_answer3 + " " + card.getAnswer3());
-        tv_qanda_card_answer4.setText(R.string.tv_qanda_frag_card_answer4 + " " + card.getAnswer4());
+        tv_qanda_card_question.setText(getString(R.string.tv_qanda_frag_card_question) + " " + card.getQuestion());
+        tv_qanda_card_answer1.setText(getString(R.string.tv_qanda_frag_card_answer1) + " " + card.getAnswer1());
+
     }
 
     private void showCardList() {
