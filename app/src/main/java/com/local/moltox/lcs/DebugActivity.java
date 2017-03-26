@@ -62,7 +62,7 @@ public class DebugActivity extends AppCompatActivity {
                 + "," + db.CARDS_DONE_TABLE_NAME + "." + db.COL_CARDS_DONE_DATETIME_INCORRECT
                 ;
         String cursorString = db.dumpQuerytoString(query);
-        
+
         String finalString = cursorString;
         tv1.setText(finalString);
 

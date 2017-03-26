@@ -18,6 +18,7 @@ public class MainActivity extends AppCompatActivity {
     Button m_btn_takeCard;
     TextView m_tv_main;
     Button btn_debugActivity;
+    Button btn_download;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +52,13 @@ public class MainActivity extends AppCompatActivity {
                 callDebugActivy(v);
             }
         });
+        btn_download = (Button)  findViewById(R.id.btn_download);
+        btn_download.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                callDownloadActivity(v);
+            }
+        });
     }
 
     @Override
@@ -81,6 +89,11 @@ public class MainActivity extends AppCompatActivity {
 
     private void callDebugActivy(View view)  {
         Intent intent = new Intent(this,DebugActivity.class);
+        startActivity(intent);
+    }
+
+    private void callDownloadActivity(View view)  {
+        Intent intent = new Intent(this,Download.class);
         startActivity(intent);
     }
 }
