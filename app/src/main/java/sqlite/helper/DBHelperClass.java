@@ -7,6 +7,11 @@ import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,6 +53,11 @@ public class DBHelperClass extends SQLiteOpenHelper {
     // Columns category table
     public static final String COL_CATEGORY_CATEGORY = "category";
     public static final String COL_CATEGORY_PICFILENAME = "picfilename";
+
+    // JSONFlags
+    public static final int TABLE_FLAG_CARDS = 01;
+    public static final int TABLE_FLAG_CATEGORY = 02;
+    public static final String TABLE_FLAG_CARDS_CATEGORY = "03";
 
     public DBHelperClass(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -121,6 +131,8 @@ public class DBHelperClass extends SQLiteOpenHelper {
         long card_id = db.insert(CARDS_TABLE_NAME,null,values);
         return card_id;
     }
+
+
 
     public long createCard_DoneRow(Cards_done done_card)  {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -263,6 +275,39 @@ public class DBHelperClass extends SQLiteOpenHelper {
         //String cursorString = DatabaseUtils.dumpCursorToString(cursor);
         // Log.v(TAG,"dumpCursortoString: \n" + cursorString);
     }
+
+    public void insertIntoFromJson(JSONObject jsonObject)  {
+        try {
+            int table_flag = jsonObject.getInt("TABLE_FLAG");
+            Log.v(TAG,"Table Flag: " + table_flag + "\nTable Flag string:" + TABLE_FLAG_CATEGORY + "|");
+            if (table_flag == TABLE_FLAG_CATEGORY)  {
+                Log.v(TAG, "Yes it is category");
+            }
+            switch (table_flag)  {
+                case TABLE_FLAG_CARDS:
+                    break;
+                case TABLE_FLAG_CATEGORY:
+                    break;
+
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private void insertCategory(JSONArray jsonArray)  {
+        Log.v(TAG, "insert Category method");
+    }
+
+    private void insertCards(JSONArray jsonArray)  {
+        Log.v(TAG, "insert Cards method");
+    }
+
+    private void insertCards_Category(JSONArray jsonArray)  {
+        Log.v(TAG, "insert Cards_Category");
+    }
+
 
     public void closeDB()  {
         SQLiteDatabase db = this.getReadableDatabase();

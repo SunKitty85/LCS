@@ -5,10 +5,12 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -16,9 +18,11 @@ import java.io.IOException;
 
 import misc.helper.DownloadQuery;
 import misc.helper.JsonObjectsForDownload;
+import sqlite.helper.DBHelperClass;
 
 public class Download extends AppCompatActivity implements
     DownloadQuery.OnRequestExecutedListener {
+    private static final String TAG = Download.class.getName();
     private static final String SERVER_ROOT_URL = "http://5.9.67.156/lcs/";
     private static final String SERVER_DIRECT_ORDER_EXTENSION = "query.php";
     private static final String API_KEY_DIRECTORDER = "u23923u5r823894n23z34fz8hhdsbvahuishwe8278";
@@ -65,13 +69,36 @@ public class Download extends AppCompatActivity implements
 
     @Override
     public void OnRequestExecuted(String result) {
-        tv_download_1.setText(result);
+        try {
+            JSONObject jObj = new JSONObject(result);
+            insertJsonToDb(jObj);
+
+            String newJsonString = jObj.getString("out_JSON");
+            JSONArray jArrayDb = new JSONArray(newJsonString);
+            String myString = jArrayDb.getString(1);
+            JSONObject jObj2 = new  JSONObject(myString);
+            String length = String.valueOf(jArrayDb.length());
+            Log.v(TAG, "JSONArray Length: " + length);
+            tv_download_1.setText(result);
+
+            // jObjDb = jObj.getJSONObject("out_JSON");
+            /*
+
+            */
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void insertJsonToDb(JSONObject jsonObject)  {
+        DBHelperClass dbHelperClass = new DBHelperClass(this);
+        dbHelperClass.insertIntoFromJson(jsonObject);
+        dbHelperClass.closeDB();
     }
 
     private JSONObject jsonCategory()  {
         JsonObjectsForDownload jofd = new JsonObjectsForDownload();
         JSONObject jsonObject = jofd.getJsonForCategory();
-
         return jsonObject;
     }
 }
