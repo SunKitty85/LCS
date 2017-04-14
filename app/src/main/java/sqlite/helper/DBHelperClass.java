@@ -280,15 +280,13 @@ public class DBHelperClass extends SQLiteOpenHelper {
         try {
             int table_flag = jsonObject.getInt("TABLE_FLAG");
             Log.v(TAG,"Table Flag: " + table_flag + "\nTable Flag string:" + TABLE_FLAG_CATEGORY + "|");
-            if (table_flag == TABLE_FLAG_CATEGORY)  {
-                Log.v(TAG, "Yes it is category");
-            }
+
             switch (table_flag)  {
                 case TABLE_FLAG_CARDS:
                     break;
                 case TABLE_FLAG_CATEGORY:
-                    break;
 
+                    break;
             }
         } catch (JSONException e) {
             e.printStackTrace();

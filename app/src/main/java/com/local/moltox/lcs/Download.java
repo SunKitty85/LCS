@@ -75,10 +75,14 @@ public class Download extends AppCompatActivity implements
 
             String newJsonString = jObj.getString("out_JSON");
             JSONArray jArrayDb = new JSONArray(newJsonString);
-            String myString = jArrayDb.getString(1);
-            JSONObject jObj2 = new  JSONObject(myString);
             String length = String.valueOf(jArrayDb.length());
-            Log.v(TAG, "JSONArray Length: " + length);
+            for (int i = 1;i < jArrayDb.length();i++ )  {
+                String myString = jArrayDb.getString(i);
+                JSONObject jObj2 = new  JSONObject(myString);
+
+                Log.v(TAG, "i " + String.valueOf(i) + "\nJSON: " + myString);
+            }
+
             tv_download_1.setText(result);
 
             // jObjDb = jObj.getJSONObject("out_JSON");
