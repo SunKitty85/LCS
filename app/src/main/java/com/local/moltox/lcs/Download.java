@@ -21,7 +21,7 @@ import misc.helper.JsonObjectsForDownload;
 import sqlite.helper.DBHelperClass;
 
 public class Download extends AppCompatActivity implements
-    DownloadQuery.OnRequestExecutedListener {
+        DownloadQuery.OnRequestExecutedListener {
     private static final String TAG = Download.class.getName();
     private static final String SERVER_ROOT_URL = "http://5.9.67.156/lcs/";
     private static final String SERVER_DIRECT_ORDER_EXTENSION = "query.php";
@@ -45,18 +45,18 @@ public class Download extends AppCompatActivity implements
             }
         });
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        btn_downloadNow = (Button)  findViewById(R.id.btn_download_downloadNow);
+        btn_downloadNow = (Button) findViewById(R.id.btn_download_downloadNow);
         btn_downloadNow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                doDownload(v,jsonCategory());
+                doDownload(v, jsonCategory());
             }
         });
         tv_download_1 = (TextView) findViewById(R.id.tv_download_1);
     }
 
 
-    private void doDownload(View v,JSONObject jsonObject)  {
+    private void doDownload(View v, JSONObject jsonObject) {
         DownloadQuery dq;
 
         try {
@@ -72,17 +72,6 @@ public class Download extends AppCompatActivity implements
         try {
             JSONObject jObj = new JSONObject(result);
             insertJsonToDb(jObj);
-
-            String newJsonString = jObj.getString("out_JSON");
-            JSONArray jArrayDb = new JSONArray(newJsonString);
-            String length = String.valueOf(jArrayDb.length());
-            for (int i = 1;i < jArrayDb.length();i++ )  {
-                String myString = jArrayDb.getString(i);
-                JSONObject jObj2 = new  JSONObject(myString);
-
-                Log.v(TAG, "i " + String.valueOf(i) + "\nJSON: " + myString);
-            }
-
             tv_download_1.setText(result);
 
             // jObjDb = jObj.getJSONObject("out_JSON");
@@ -94,13 +83,13 @@ public class Download extends AppCompatActivity implements
         }
     }
 
-    private void insertJsonToDb(JSONObject jsonObject)  {
+    private void insertJsonToDb(JSONObject jsonObject) {
         DBHelperClass dbHelperClass = new DBHelperClass(this);
         dbHelperClass.insertIntoFromJson(jsonObject);
         dbHelperClass.closeDB();
     }
 
-    private JSONObject jsonCategory()  {
+    private JSONObject jsonCategory() {
         JsonObjectsForDownload jofd = new JsonObjectsForDownload();
         JSONObject jsonObject = jofd.getJsonForCategory();
         return jsonObject;
