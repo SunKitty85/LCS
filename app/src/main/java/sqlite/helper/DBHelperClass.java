@@ -192,6 +192,13 @@ public class DBHelperClass extends SQLiteOpenHelper {
         return tableCards;
     }
 
+    public Cursor getCategorys()  {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String selectQuery = "SELECT * FROM " + CATEGORY_TABLE_NAME;
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        return cursor;
+    }
+
     public void showCardListAsLog() {
         Log.v(TAG, "Get all Cards");
         List<Card> allCards = this.getAllCards();
