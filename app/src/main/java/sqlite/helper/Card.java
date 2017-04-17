@@ -11,13 +11,13 @@ public class Card {
     String answer2;
     String answer3;
     String answer4;
-    int releaseDate;
-    int category_id;
+    String releaseDate;
+    String category_id;
 
     // constructors ...
     public Card()  {};
 
-    public Card(String question, String answer1, String answer2, String answer3, String answer4, int releaseDate,int category_id)  {
+    public Card(String question, String answer1, String answer2, String answer3, String answer4, String releaseDate,String category_id)  {
         this.question = question;
         this.answer1 = answer1;
         this.answer2 = answer2;
@@ -27,7 +27,7 @@ public class Card {
         this.category_id = category_id;
     }
 
-    public Card(int id, String question, String answer1, String answer2, String answer3, String answer4, int releaseDate,int category_id)  {
+    public Card(int id, String question, String answer1, String answer2, String answer3, String answer4, String releaseDate,String category_id)  {
         this.id = id;
         this.question = question;
         this.answer1 = answer1;
@@ -86,16 +86,16 @@ public class Card {
         this.answer4 = answer4;
     }
 
-    public int getReleaseDate() {
+    public String getReleaseDate() {
         return releaseDate;
     }
 
-    public void setReleaseDate(int releaseDate) {
+    public void setReleaseDate(String releaseDate) {
         this.releaseDate = releaseDate;
     }
 
-    public int getCategory_id()  {return category_id;}
+    public String getCategory_id()  {return category_id;}
 
-    public void setCategory_id(int category_id)  {this.category_id = category_id;}
+    public void setCategory_id(String category_id)  {this.category_id = category_id;}
 
 }

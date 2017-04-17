@@ -22,7 +22,7 @@ import java.util.List;
 
 public class DBHelperClass extends SQLiteOpenHelper {
     private static final String TAG = DBHelperClass.class.getName();
-    public static final int DATABASE_VERSION = 12;
+    public static final int DATABASE_VERSION = 14;
     public static final String DATABASE_NAME = "LCS_DB.db";
 
     // Table Names
@@ -129,6 +129,7 @@ public class DBHelperClass extends SQLiteOpenHelper {
         values.put(COL_CARDS_RELEASE_DATE, table_card.getReleaseDate());
         values.put(COL_CARDS_CATEGORY_ID, table_card.getCategory_id());
         long card_id = db.insert(CARDS_TABLE_NAME, null, values);
+        Log.v(TAG, "Card created with id: " + card_id);
         return card_id;
     }
 
@@ -167,8 +168,8 @@ public class DBHelperClass extends SQLiteOpenHelper {
         card.setAnswer2(cursor.getString(cursor.getColumnIndex((COL_CARDS_ANSWER02))));
         card.setAnswer3(cursor.getString(cursor.getColumnIndex((COL_CARDS_ANSWER03))));
         card.setAnswer4(cursor.getString(cursor.getColumnIndex((COL_CARDS_ANSWER04))));
-        card.setReleaseDate(cursor.getInt(cursor.getColumnIndex(COL_CARDS_RELEASE_DATE)));
-        card.setCategory_id(cursor.getInt(cursor.getColumnIndex(COL_CARDS_CATEGORY_ID)));
+        card.setReleaseDate(cursor.getString(cursor.getColumnIndex(COL_CARDS_RELEASE_DATE)));
+        card.setCategory_id(cursor.getString(cursor.getColumnIndex(COL_CARDS_CATEGORY_ID)));
         return card;
     }
 
@@ -192,7 +193,7 @@ public class DBHelperClass extends SQLiteOpenHelper {
         return tableCards;
     }
 
-    public Cursor getCategorys()  {
+    public Cursor getCategorys() {
         SQLiteDatabase db = this.getReadableDatabase();
         String selectQuery = "SELECT * FROM " + CATEGORY_TABLE_NAME;
         Cursor cursor = db.rawQuery(selectQuery, null);
@@ -290,18 +291,30 @@ public class DBHelperClass extends SQLiteOpenHelper {
             switch (table_flag) {
                 case TABLE_FLAG_CARDS:
                     Log.v(TAG, "Yeeeeessss Cards erkannt");
+                    JSONArray jArrayDbCards = new JSONArray((jsonObject.getString("out_JSON_Cards")));
+                    JSONArray jArrayDbCardsCategories = new JSONArray((jsonObject.getString("out_JSON_Cards_Categories")));
+                    // Card anlegen und in DB inserten
+                    for (int i = 0; i < jArrayDbCards.length() - 1; i++) {
+                        JSONObject jObj = new JSONObject(jArrayDbCards.getString(i));
+                        int id = 0;
 
+                        try {
+                            id = Integer.parseInt(jObj.getString("id"));
+                        } catch(NumberFormatException nfe) {
+                            System.out.println("Could not parse " + nfe);
+                        }
+                        Card card = new Card(id, jObj.getString("question"), jObj.getString("answer01"), jObj.getString("answer02"), jObj.getString("answer03"), jObj.getString("answer04"), jObj.getString("release_date"), jObj.getString("categoryid"));
+                        long card_id = this.createCard(card);
+                    }
 
                     break;
                 case TABLE_FLAG_CATEGORY:
                     // Data for DB extract:
                     JSONArray jArrayDb = new JSONArray(jsonObject.getString("out_JSON"));
-                    Log.v(TAG, "Array Length is: " + String.valueOf(jArrayDb.length()));
-                    // Put Data in ContentValue from JSON
+                    Log.v(TAG, "Categories Array Length is: " + String.valueOf(jArrayDb.length()));
+                    // Put Data in ContentValue from JSON and store to DB
                     for (int i = 0; i < jArrayDb.length() - 1; i++) {
-                        String myString = jArrayDb.getString(i);
-                        JSONObject jObj = new JSONObject(myString);
-
+                        JSONObject jObj = new JSONObject(jArrayDb.getString(i));
                         Log.v(TAG, "i " + String.valueOf(i) + "\nJSON: \n"
                                 + "\nid= " + jObj.getString("id")
                                 + "\ncategory= " + jObj.getString("category")
@@ -324,7 +337,7 @@ public class DBHelperClass extends SQLiteOpenHelper {
     private long insertCategory(ContentValues contentValues) {
         Log.v(TAG, "insert Category method");
         SQLiteDatabase db = this.getWritableDatabase();
-        long cat_id = db.insert(CATEGORY_TABLE_NAME,null,contentValues);
+        long cat_id = db.insert(CATEGORY_TABLE_NAME, null, contentValues);
         return cat_id;
     }
 

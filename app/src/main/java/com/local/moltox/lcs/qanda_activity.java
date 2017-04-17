@@ -49,7 +49,7 @@ public class qanda_activity extends AppCompatActivity {
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
-                insertTestCards();
+                // insertTestCards();
                 db.showCardListAsLog();
             }
         });
@@ -68,7 +68,7 @@ public class qanda_activity extends AppCompatActivity {
                                                Log.v(TAG, "Es gibt  " + countCards + " Cards");
                                                if (countCards < 1) {
                                                    // TODO Delete isnertTestCards method
-                                                   insertTestCards();
+                                                   // insertTestCards();
                                                } else {
 
                                                    do {
@@ -146,6 +146,7 @@ public class qanda_activity extends AppCompatActivity {
 
 
     // Debug only
+    /*
     private void insertTestCards() {
         Card card1 = new Card("Question1_1", "Answer1_1", "Answer2_1", "Answer3_1", "Answer4_1", 20170307,1);
         Card card2 = new Card("Question1_2", "Answer1_2", "Answer2_2", "Answer3_2", "Answer4_2", 20170308,1);
@@ -158,6 +159,7 @@ public class qanda_activity extends AppCompatActivity {
         Log.v(TAG, "Inserted IDs: " + String.valueOf(card_id1) + " " + String.valueOf(card_id2) + " " +
                 String.valueOf(card_id3) + " " + String.valueOf(card_id4));
     }
+    */
 
     private void makeCardDone(int cardID,boolean isCorrect)  {
         Long tsLong = System.currentTimeMillis()/1000;
