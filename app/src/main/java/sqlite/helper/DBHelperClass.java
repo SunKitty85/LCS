@@ -22,7 +22,7 @@ import java.util.List;
 
 public class DBHelperClass extends SQLiteOpenHelper {
     private static final String TAG = DBHelperClass.class.getName();
-    public static final int DATABASE_VERSION = 14;
+    public static final int DATABASE_VERSION = 17;
     public static final String DATABASE_NAME = "LCS_DB.db";
 
     // Table Names
@@ -30,6 +30,7 @@ public class DBHelperClass extends SQLiteOpenHelper {
     public static final String CARDS_DONE_TABLE_NAME = "tb_cards_done";
     public static final String PULLS_TABLE_NAME = "tb_pulls";
     public static final String CATEGORY_TABLE_NAME = "tb_category";
+    public static final String CARDS_CATEGORY_TABLE_NAME = "tb_cards_category";
 
     // Common Column Names
     public static final String COL_COMMON_ID = "_id";
@@ -54,6 +55,10 @@ public class DBHelperClass extends SQLiteOpenHelper {
     // Columns category table
     public static final String COL_CATEGORY_CATEGORY = "category";
     public static final String COL_CATEGORY_PICFILENAME = "picfilename";
+
+    // Cards_Category table
+    public static final String COL_CARDS_CATEGORY_CARDID = "card_id";
+    public static final String COL_CARDS_CATEGORY_CATEGORYID = "category_id";
 
     // JSONFlags
     public static final int TABLE_FLAG_CARDS = 01;
@@ -93,6 +98,11 @@ public class DBHelperClass extends SQLiteOpenHelper {
                     + COL_CATEGORY_CATEGORY + " text, "
                     + COL_CATEGORY_PICFILENAME + " text)";
 
+    private static final String CREATE_TABLE_CARD_CATEGORY =
+            "CREATE TABLE " + CARDS_CATEGORY_TABLE_NAME + " ("
+                    + COL_COMMON_ID + " integer primary key, "
+                    + COL_CARDS_CATEGORY_CARDID + " integer, "
+                    + COL_CARDS_CATEGORY_CATEGORYID + " integer)";
 
     @Override
     public void onCreate(SQLiteDatabase db) {
@@ -101,7 +111,7 @@ public class DBHelperClass extends SQLiteOpenHelper {
         db.execSQL(CREATE_TABLE_CARDS_DONE);
         db.execSQL(CREATE_TABLE_PULLS);
         db.execSQL(CREATE_TABLE_CATEGORY);
-
+        db.execSQL(CREATE_TABLE_CARD_CATEGORY);
     }
 
     @Override
@@ -111,6 +121,7 @@ public class DBHelperClass extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + CARDS_DONE_TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + PULLS_TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + CATEGORY_TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + CARDS_CATEGORY_TABLE_NAME);
         Log.v(TAG, "onUpgrade: DROPPED ALL TABLES!");
         Log.v(TAG, "Creating new Database");
         onCreate(db);
@@ -307,6 +318,24 @@ public class DBHelperClass extends SQLiteOpenHelper {
                         long card_id = this.createCard(card);
                     }
 
+                    for (int i = 0; i < jArrayDbCardsCategories.length() - 1; i++)  {
+
+                        JSONObject jObj = new JSONObject(jArrayDbCards.getString(i));
+                        int card_id = 0;
+                        int category_id = 0;
+                        try {
+                            card_id = Integer.parseInt(jObj.getString("card_id"));
+                            category_id = Integer.parseInt(jObj.getString("category_id"));
+                        } catch(NumberFormatException nfe) {
+                            System.out.println("Could not parse " + nfe);
+                        }
+                        ContentValues contentValues = new ContentValues();
+
+                        contentValues.put(COL_CARDS_CATEGORY_CARDID, card_id);
+                        contentValues.put(COL_CARDS_CATEGORY_CATEGORYID, category_id);
+                        long cat_id = insertCategory(contentValues);
+                        Log.v(TAG, "Card_Category inserted with id: " + cat_id);
+                    }
                     break;
                 case TABLE_FLAG_CATEGORY:
                     // Data for DB extract:
@@ -341,12 +370,11 @@ public class DBHelperClass extends SQLiteOpenHelper {
         return cat_id;
     }
 
-    private void insertCards(JSONArray jsonArray) {
-        Log.v(TAG, "insert Cards method");
-    }
-
-    private void insertCards_Category(JSONArray jsonArray) {
+    private long insertCards_Category(ContentValues contentValues) {
         Log.v(TAG, "insert Cards_Category");
+        SQLiteDatabase db = this.getWritableDatabase();
+        long card_cat_id = db.insert(CATEGORY_TABLE_NAME, null, contentValues);
+        return card_cat_id;
     }
 
 

@@ -78,12 +78,16 @@ public class Download extends AppCompatActivity implements
     @Override
     protected void onResume()  {
         super.onResume();
+        fillListView();
+
+    }
+
+    private void fillListView()  {
         DBHelperClass db = new DBHelperClass(this);
         Cursor cursor = db.getCategorys();
         CursorAdapter categoryCursorAdapter = new CategoryCursorAdapter(this,cursor);
         lv_categories.setAdapter(categoryCursorAdapter);
     }
-
 
     private void doDownload(JSONObject jsonObject) {
         DownloadQuery dq;
@@ -102,6 +106,7 @@ public class Download extends AppCompatActivity implements
             JSONObject jObj = new JSONObject(result);
             insertJsonToDb(jObj);
             tv_download_1.setText(result);
+            fillListView();
 
         } catch (JSONException e) {
             e.printStackTrace();
