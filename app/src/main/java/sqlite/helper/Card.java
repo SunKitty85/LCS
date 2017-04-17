@@ -4,7 +4,7 @@ package sqlite.helper;
  * Created by moltox on 06.03.2017.
  */
 
-public class table_cards {
+public class Card {
     int id;
     String question;
     String answer1;
@@ -12,20 +12,22 @@ public class table_cards {
     String answer3;
     String answer4;
     int releaseDate;
+    int category_id;
 
     // constructors ...
-    public table_cards()  {};
+    public Card()  {};
 
-    public table_cards(String question,String answer1,String answer2,String answer3, String answer4,int releaseDate)  {
+    public Card(String question, String answer1, String answer2, String answer3, String answer4, int releaseDate,int category_id)  {
         this.question = question;
         this.answer1 = answer1;
         this.answer2 = answer2;
         this.answer3 = answer3;
         this.answer4 = answer4;
         this.releaseDate = releaseDate;
+        this.category_id = category_id;
     }
 
-    public table_cards(int id, String question,String answer1,String answer2,String answer3, String answer4,int releaseDate)  {
+    public Card(int id, String question, String answer1, String answer2, String answer3, String answer4, int releaseDate,int category_id)  {
         this.id = id;
         this.question = question;
         this.answer1 = answer1;
@@ -33,6 +35,7 @@ public class table_cards {
         this.answer3 = answer3;
         this.answer4 = answer4;
         this.releaseDate = releaseDate;
+        this.category_id = category_id;
     }
 
     public int getId() {
@@ -90,4 +93,9 @@ public class table_cards {
     public void setReleaseDate(int releaseDate) {
         this.releaseDate = releaseDate;
     }
+
+    public int getCategory_id()  {return category_id;}
+
+    public void setCategory_id(int category_id)  {this.category_id = category_id;}
+
 }

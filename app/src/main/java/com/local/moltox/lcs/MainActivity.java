@@ -15,8 +15,10 @@ import android.widget.TextView;
 public class MainActivity extends AppCompatActivity {
     View view;
     int count;
-    Button m_btn_continue;
+    Button m_btn_takeCard;
     TextView m_tv_main;
+    Button btn_debugActivity;
+    Button btn_download;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,11 +37,26 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        m_btn_continue = (Button)  findViewById(R.id.btn_continue);
         m_tv_main = (TextView) findViewById(R.id.id_tv_main);
-        m_btn_continue.setOnClickListener(new View.OnClickListener()  {
+        m_btn_takeCard = (Button)  findViewById(R.id.btn_takeCard);
+        m_btn_takeCard.setOnClickListener(new View.OnClickListener()  {
             public void onClick(View v)  {
                 callQandaActivity(v);
+            }
+        });
+
+        btn_debugActivity = (Button) findViewById(R.id.btn_debugActivity);
+        btn_debugActivity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                callDebugActivy(v);
+            }
+        });
+        btn_download = (Button)  findViewById(R.id.btn_download);
+        btn_download.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                callDownloadActivity(v);
             }
         });
     }
@@ -62,12 +79,21 @@ public class MainActivity extends AppCompatActivity {
         if (id == R.id.action_settings) {
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
     private void callQandaActivity(View view)  {
         Intent intent = new Intent(this,qanda_activity.class);
+        startActivity(intent);
+    }
+
+    private void callDebugActivy(View view)  {
+        Intent intent = new Intent(this,DebugActivity.class);
+        startActivity(intent);
+    }
+
+    private void callDownloadActivity(View view)  {
+        Intent intent = new Intent(this,Download.class);
         startActivity(intent);
     }
 }

@@ -5,6 +5,21 @@
     /* fragment_main
     ---------------- */
 
-    <string name="button_continue">Weiter</string>
-    <string name="title_activity_qanda_activity">qanda_activity</string>
+    <string name="button_takeCard">Karte ziehen</string>
+
+    /* fragment qandaactivity
+    -------------------------- */
+    <string name="title_activity_qanda_activity">Fragen und Antworten</string>
+    <string name="tv_qanda_frag_card_id">Card ID:\nRelease Date</string>
+    <string name="tv_qanda_frag_card_question">Frage</string>
+    <string name="tv_qanda_frag_card_answer1">Antwort 1</string>
+    <string name="tv_qanda_frag_card_answer2">Antwort 2</string>
+    <string name="tv_qanda_frag_card_answer3">Antwort 3</string>
+    <string name="tv_qanda_frag_card_answer4">Antwort 4</string>
+    <string name="button_new_card">Neue Karte ziehen</string>
+    <string name="button_answer">Antwort anzeigen</string>
+    <string name="button_correct">Richtig</string>
+    <string name="button_not_correct">Falsch</string>
+    <string name="title_activity_debug">DebugActivity</string>
+    <string name="title_activity_download">Download</string>
 </resources>
