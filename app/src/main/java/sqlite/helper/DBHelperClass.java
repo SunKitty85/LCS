@@ -130,23 +130,24 @@ public class DBHelperClass extends SQLiteOpenHelper {
 
     // Table Methods
     public long createCard(Card table_card) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put(COL_COMMON_ID, table_card.getId());
-        values.put(COL_CARDS_QUESTION, table_card.getQuestion());
-        values.put(COL_CARDS_ANSWER01, table_card.getAnswer1());
-        values.put(COL_CARDS_ANSWER02, table_card.getAnswer2());
-        values.put(COL_CARDS_ANSWER03, table_card.getAnswer3());
-        values.put(COL_CARDS_ANSWER04, table_card.getAnswer4());
-        values.put(COL_CARDS_RELEASE_DATE, table_card.getReleaseDate());
-        values.put(COL_CARDS_CATEGORY_ID, table_card.getCategory_id());
-        long card_id = db.insert(CARDS_TABLE_NAME, null, values);
-        if (card_id != -1) {
-            Log.v(TAG, "Card created with id: " + card_id);
-        }  else  {
-            Log.v(TAG, "Card alredy exist");
+
+        if (!idInTableExist(table_card.getId(),CARDS_TABLE_NAME)) {
+            SQLiteDatabase db = this.getWritableDatabase();
+            ContentValues values = new ContentValues();
+            values.put(COL_COMMON_ID, table_card.getId());
+            values.put(COL_CARDS_QUESTION, table_card.getQuestion());
+            values.put(COL_CARDS_ANSWER01, table_card.getAnswer1());
+            values.put(COL_CARDS_ANSWER02, table_card.getAnswer2());
+            values.put(COL_CARDS_ANSWER03, table_card.getAnswer3());
+            values.put(COL_CARDS_ANSWER04, table_card.getAnswer4());
+            values.put(COL_CARDS_RELEASE_DATE, table_card.getReleaseDate());
+            values.put(COL_CARDS_CATEGORY_ID, table_card.getCategory_id());
+            long card_id = db.insert(CARDS_TABLE_NAME, null, values);
+            return card_id;
+        } else  {
+            Log.w(TAG, "Card ID " + table_card.getId() + " already exist" );
+            return -1;
         }
-        return card_id;
     }
 
 
@@ -344,7 +345,7 @@ public class DBHelperClass extends SQLiteOpenHelper {
                         contentValues.put(COL_CARDS_CATEGORY_CARDID, card_id);
                         contentValues.put(COL_CARDS_CATEGORY_CATEGORYID, category_id);
                         long cat_id = insertCards_Category(contentValues);
-                        Log.v(TAG, "Card_Category inserted with id: " + cat_id);
+
                     }
                     break;
                 case TABLE_FLAG_CATEGORY:
@@ -390,6 +391,9 @@ public class DBHelperClass extends SQLiteOpenHelper {
             long card_cat_id = db.insert(CARDS_CATEGORY_TABLE_NAME, null, contentValues);
             return card_cat_id;
         } else {
+            Log.w(TAG, "CardID: " + contentValues.getAsInteger(COL_CARDS_CATEGORY_CARDID)
+            + " CategoryID: " + contentValues.getAsInteger(COL_CARDS_CATEGORY_CATEGORYID)
+                    + " already exist");
             return -1;
         }
     }
@@ -406,6 +410,20 @@ public class DBHelperClass extends SQLiteOpenHelper {
         }  else  {
             return false;
         }
+    }
+
+    private boolean idInTableExist(int id, String tableName)  {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query =  "SELECT * FROM " + tableName
+                + " WHERE " + tableName + "." + this.COL_COMMON_ID + "=" + id;
+        Cursor cursor = db.rawQuery(query, null);
+
+        if (cursor.getCount() > 0)  {
+            return true;
+        }  else  {
+            return false;
+        }
+
     }
 
 
