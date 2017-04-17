@@ -267,6 +267,7 @@ public class DBHelperClass extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
         cursor.moveToFirst();
+
         String cursorString = DatabaseUtils.dumpCursorToString(cursor);
         Log.v(TAG, "dumpCursortoString: \n" + cursorString);
     }
