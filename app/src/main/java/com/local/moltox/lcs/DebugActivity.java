@@ -36,7 +36,10 @@ public class DebugActivity extends AppCompatActivity {
 
     private void fillTextViews() {
         DBHelperClass db = new DBHelperClass(getApplicationContext());
-        String query = "SELECT * FROM " + db.CATEGORY_TABLE_NAME;
+        //String query = "SELECT * FROM " + db.CARDS_CATEGORY_TABLE_NAME;
+        String query =  "SELECT * FROM " + db.CARDS_CATEGORY_TABLE_NAME
+                + " WHERE " + db.CARDS_CATEGORY_TABLE_NAME + "." + db.COL_CARDS_CATEGORY_CARDID + "=" + "1"
+                + " AND " + db.CARDS_CATEGORY_TABLE_NAME + "." + db.COL_CARDS_CATEGORY_CATEGORYID + "=" + "1";
         String cursorString = db.dumpQuerytoString(query);
   //        String finalString = cursorString;
         tv1.setText(cursorString);

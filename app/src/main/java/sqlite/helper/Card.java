@@ -17,6 +17,7 @@ public class Card {
     // constructors ...
     public Card()  {};
 
+    /*
     public Card(String question, String answer1, String answer2, String answer3, String answer4, String releaseDate,String category_id)  {
         this.question = question;
         this.answer1 = answer1;
@@ -26,6 +27,7 @@ public class Card {
         this.releaseDate = releaseDate;
         this.category_id = category_id;
     }
+    */
 
     public Card(int id, String question, String answer1, String answer2, String answer3, String answer4, String releaseDate,String category_id)  {
         this.id = id;
