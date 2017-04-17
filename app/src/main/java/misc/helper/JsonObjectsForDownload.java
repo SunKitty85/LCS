@@ -40,7 +40,21 @@ public class JsonObjectsForDownload {
         }
         return jsonObject;
     }
-    
+
+    public JSONObject getJsonForCards()  {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("MyKey", MyKey);
+            jsonObject.put("ToDoFlag",ToDoFlag_SYNC);
+            jsonObject.put("TableName",TableName_Cards);
+            jsonObject.put("Card_ID","");
+            jsonObject.put("minAge","");
+            jsonObject.put("lastPoll",4711);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return jsonObject;
+    }
     
     
     

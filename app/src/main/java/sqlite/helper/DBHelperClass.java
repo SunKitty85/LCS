@@ -12,6 +12,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.sql.SQLInput;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -284,16 +285,24 @@ public class DBHelperClass extends SQLiteOpenHelper {
 
                     break;
                 case TABLE_FLAG_CATEGORY:
+                    // Data for DB extract:
                     JSONArray jArrayDb = new JSONArray(jsonObject.getString("out_JSON"));
                     Log.v(TAG, "Array Length is: " + String.valueOf(jArrayDb.length()));
+                    // Put Data in ContentValue from JSON
                     for (int i = 0; i < jArrayDb.length() - 1; i++) {
                         String myString = jArrayDb.getString(i);
-                        JSONObject jObj2 = new JSONObject(myString);
+                        JSONObject jObj = new JSONObject(myString);
 
                         Log.v(TAG, "i " + String.valueOf(i) + "\nJSON: \n"
-                                + "\nid= " + jObj2.getString("id")
-                                + "\ncategory= " + jObj2.getString("category")
-                                + "\npicfilename= " + jObj2.getString("picfilename"));
+                                + "\nid= " + jObj.getString("id")
+                                + "\ncategory= " + jObj.getString("category")
+                                + "\npicfilename= " + jObj.getString("picfilename"));
+                        ContentValues contentValues = new ContentValues();
+                        contentValues.put(COL_COMMON_ID, jObj.getString("id"));
+                        contentValues.put(COL_CATEGORY_CATEGORY, jObj.getString("category"));
+                        contentValues.put(COL_CATEGORY_PICFILENAME, jObj.getString("picfilename"));
+                        long cat_id = insertCategory(contentValues);
+                        Log.v(TAG, "Category inserted with id: " + cat_id);
                     }
                     break;
             }
@@ -303,8 +312,11 @@ public class DBHelperClass extends SQLiteOpenHelper {
 
     }
 
-    private void insertCategory(JSONArray jsonArray) {
+    private long insertCategory(ContentValues contentValues) {
         Log.v(TAG, "insert Category method");
+        SQLiteDatabase db = this.getWritableDatabase();
+        long cat_id = db.insert(CATEGORY_TABLE_NAME,null,contentValues);
+        return cat_id;
     }
 
     private void insertCards(JSONArray jsonArray) {
