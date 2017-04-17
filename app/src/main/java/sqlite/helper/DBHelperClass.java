@@ -22,7 +22,7 @@ import java.util.List;
 
 public class DBHelperClass extends SQLiteOpenHelper {
     private static final String TAG = DBHelperClass.class.getName();
-    public static final int DATABASE_VERSION = 11;
+    public static final int DATABASE_VERSION = 12;
     public static final String DATABASE_NAME = "LCS_DB.db";
 
     // Table Names
@@ -290,6 +290,7 @@ public class DBHelperClass extends SQLiteOpenHelper {
             switch (table_flag) {
                 case TABLE_FLAG_CARDS:
                     Log.v(TAG, "Yeeeeessss Cards erkannt");
+
 
                     break;
                 case TABLE_FLAG_CATEGORY:
