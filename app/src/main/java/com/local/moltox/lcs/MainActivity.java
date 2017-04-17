@@ -19,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
     TextView m_tv_main;
     Button btn_debugActivity;
     Button btn_download;
+    Button btn_showCards;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +43,13 @@ public class MainActivity extends AppCompatActivity {
         m_btn_takeCard.setOnClickListener(new View.OnClickListener()  {
             public void onClick(View v)  {
                 callQandaActivity(v);
+            }
+        });
+        btn_showCards = (Button)  findViewById(R.id.btn_showCards);
+        btn_showCards.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                callShowCardsActivity(v);
             }
         });
 
@@ -84,6 +92,11 @@ public class MainActivity extends AppCompatActivity {
 
     private void callQandaActivity(View view)  {
         Intent intent = new Intent(this,qanda_activity.class);
+        startActivity(intent);
+    }
+
+    private void callShowCardsActivity(View v) {
+        Intent intent = new Intent(this,ShowCards.class);
         startActivity(intent);
     }
 

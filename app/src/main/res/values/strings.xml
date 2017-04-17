@@ -6,6 +6,7 @@
     ---------------- */
 
     <string name="button_takeCard">Karte ziehen</string>
+    <string name="button_showCards">Alle Karten zeigen</string>
 
     /* fragment qandaactivity
     -------------------------- */
@@ -22,4 +23,5 @@
     <string name="button_not_correct">Falsch</string>
     <string name="title_activity_debug">DebugActivity</string>
     <string name="title_activity_download">Download</string>
+    <string name="title_activity_show_cards">ShowCards</string>
 </resources>

@@ -7,12 +7,9 @@ import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.sql.SQLInput;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -130,7 +127,6 @@ public class DBHelperClass extends SQLiteOpenHelper {
 
     // Table Methods
     public long createCard(Card table_card) {
-
         if (!idInTableExist(table_card.getId(),CARDS_TABLE_NAME)) {
             SQLiteDatabase db = this.getWritableDatabase();
             ContentValues values = new ContentValues();
@@ -149,7 +145,6 @@ public class DBHelperClass extends SQLiteOpenHelper {
             return -1;
         }
     }
-
 
     public long createCard_DoneRow(Cards_done done_card) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -208,6 +203,14 @@ public class DBHelperClass extends SQLiteOpenHelper {
             } while (cursor.moveToNext());
         }
         return tableCards;
+    }
+
+    public Cursor getAllCardsCursor()  {
+        String selectQuery = "SELECT * FROM " + CARDS_TABLE_NAME;
+        Log.v(TAG, selectQuery);
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        return cursor;
     }
 
     public Cursor getCategorys() {
@@ -427,11 +430,8 @@ public class DBHelperClass extends SQLiteOpenHelper {
 
     }
 
-
     public void closeDB() {
         SQLiteDatabase db = this.getReadableDatabase();
         if (db != null && db.isOpen()) db.close();
     }
-
-
 }
