@@ -67,6 +67,7 @@ public class qanda_activity extends AppCompatActivity {
                                                int countCards = db.getCountCards();
                                                Log.v(TAG, "Es gibt  " + countCards + " Cards");
                                                if (countCards < 1) {
+                                                   // TODO Delete isnertTestCards method
                                                    insertTestCards();
                                                } else {
 

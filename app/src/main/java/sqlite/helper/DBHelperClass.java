@@ -22,7 +22,7 @@ import java.util.List;
 
 public class DBHelperClass extends SQLiteOpenHelper {
     private static final String TAG = DBHelperClass.class.getName();
-    public static final int DATABASE_VERSION = 9;
+    public static final int DATABASE_VERSION = 11;
     public static final String DATABASE_NAME = "LCS_DB.db";
 
     // Table Names
@@ -32,7 +32,7 @@ public class DBHelperClass extends SQLiteOpenHelper {
     public static final String CATEGORY_TABLE_NAME = "tb_category";
 
     // Common Column Names
-    public static final String COL_COMMON_ID = "id";
+    public static final String COL_COMMON_ID = "_id";
 
     // Columns cards Table
     public static final String COL_CARDS_QUESTION = "question";
@@ -289,6 +289,7 @@ public class DBHelperClass extends SQLiteOpenHelper {
 
             switch (table_flag) {
                 case TABLE_FLAG_CARDS:
+                    Log.v(TAG, "Yeeeeessss Cards erkannt");
 
                     break;
                 case TABLE_FLAG_CATEGORY:
