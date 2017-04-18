@@ -6,6 +6,7 @@ package sqlite.helper;
 
 public class Card {
     int id;
+    int cardId;
     String question;
     String answer1;
     String answer2;
@@ -29,8 +30,9 @@ public class Card {
     }
     */
 
-    public Card(int id, String question, String answer1, String answer2, String answer3, String answer4, String releaseDate,String category_id)  {
+    public Card(int cardId, String question, String answer1, String answer2, String answer3, String answer4, String releaseDate,String category_id)  {
         this.id = id;
+        this.cardId = cardId;
         this.question = question;
         this.answer1 = answer1;
         this.answer2 = answer2;
@@ -47,6 +49,10 @@ public class Card {
     public void setId(int id) {
         this.id = id;
     }
+
+    public int getCardId()  { return cardId;}
+
+    public void setCardId(int cardId)  { this.cardId = cardId; }
 
     public String getQuestion() {
         return question;

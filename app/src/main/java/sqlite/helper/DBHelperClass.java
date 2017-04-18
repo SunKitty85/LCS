@@ -19,7 +19,7 @@ import java.util.List;
 
 public class DBHelperClass extends SQLiteOpenHelper {
     private static final String TAG = DBHelperClass.class.getName();
-    public static final int DATABASE_VERSION = 27;
+    public static final int DATABASE_VERSION = 31;
     public static final String DATABASE_NAME = "LCS_DB.db";
 
     // Table Names
@@ -33,6 +33,7 @@ public class DBHelperClass extends SQLiteOpenHelper {
     public static final String COL_COMMON_ID = "_id";
 
     // Columns cards Table
+    public static final String COL_CARDS_CARD_ID = "card_id";
     public static final String COL_CARDS_QUESTION = "question";
     public static final String COL_CARDS_ANSWER01 = "answer01";
     public static final String COL_CARDS_ANSWER02 = "answer02";
@@ -69,6 +70,7 @@ public class DBHelperClass extends SQLiteOpenHelper {
     private static final String CREATE_TABLE_CARDS =
             "CREATE TABLE " + CARDS_TABLE_NAME + " ("
                     + COL_COMMON_ID + " integer primary key, "
+                    + COL_CARDS_CARD_ID + " integer, "
                     + COL_CARDS_QUESTION + " text, "
                     + COL_CARDS_ANSWER01 + " text, "
                     + COL_CARDS_ANSWER02 + " text, "
@@ -130,7 +132,8 @@ public class DBHelperClass extends SQLiteOpenHelper {
         if (!idInTableExist(table_card.getId(),CARDS_TABLE_NAME)) {
             SQLiteDatabase db = this.getWritableDatabase();
             ContentValues values = new ContentValues();
-            values.put(COL_COMMON_ID, table_card.getId());
+            // values.put(COL_COMMON_ID, table_card.getId());
+            values.put(COL_CARDS_CARD_ID, table_card.getCardId());
             values.put(COL_CARDS_QUESTION, table_card.getQuestion());
             values.put(COL_CARDS_ANSWER01, table_card.getAnswer1());
             values.put(COL_CARDS_ANSWER02, table_card.getAnswer2());
@@ -315,17 +318,17 @@ public class DBHelperClass extends SQLiteOpenHelper {
                     JSONArray jArrayDbCards = new JSONArray((jsonObject.getString("out_JSON_Cards")));
                     JSONArray jArrayDbCardsCategories = new JSONArray((jsonObject.getString("out_JSON_Cards_Categories")));
                     // Card anlegen und in DB inserten
-                    for (int i = 0; i < jArrayDbCards.length() - 2; i++) {
+                    for (int i = 0; i < jArrayDbCards.length() - 1; i++) {
 
                         if (jArrayDbCards.getString(i) != null) {
                             JSONObject jObj = new JSONObject(jArrayDbCards.getString(i));
-                            int id = 0;
+                            int cardId = 0;
                             try {
-                                id = Integer.parseInt(jObj.getString("id"));
+                                cardId = Integer.parseInt(jObj.getString("id"));
                             } catch(NumberFormatException nfe) {
                                 System.out.println("Could not parse " + nfe);
                             }
-                            Card card = new Card(id, jObj.getString("question"), jObj.getString("answer01"), jObj.getString("answer02"), jObj.getString("answer03"), jObj.getString("answer04"), jObj.getString("release_date"), jObj.getString("categoryid"));
+                            Card card = new Card(cardId, jObj.getString("question"), jObj.getString("answer01"), jObj.getString("answer02"), jObj.getString("answer03"), jObj.getString("answer04"), jObj.getString("release_date"), jObj.getString("categoryid"));
                             long card_id = this.createCard(card);
                         } else  {
                             break;
