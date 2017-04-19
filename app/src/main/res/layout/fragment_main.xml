@@ -30,6 +30,12 @@
             android:text="@string/button_takeCard" />
 
         <Button
+            android:id="@+id/btn_showCards"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/button_showCards"/>
+
+        <Button
             android:id="@+id/btn_debugActivity"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"

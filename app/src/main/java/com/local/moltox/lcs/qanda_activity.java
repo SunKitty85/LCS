@@ -49,7 +49,7 @@ public class qanda_activity extends AppCompatActivity {
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
-                insertTestCards();
+
                 db.showCardListAsLog();
             }
         });
@@ -67,7 +67,8 @@ public class qanda_activity extends AppCompatActivity {
                                                int countCards = db.getCountCards();
                                                Log.v(TAG, "Es gibt  " + countCards + " Cards");
                                                if (countCards < 1) {
-                                                   insertTestCards();
+                                                   // TODO Delete isnertTestCards method
+                                                   // insertTestCards();
                                                } else {
 
                                                    do {
@@ -99,7 +100,7 @@ public class qanda_activity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Log.v(TAG, "Answer Correct");
-                Cards_done dc = new Cards_done(currentCardID,TRUE);
+                Cards_done dc = new Cards_done(currentCardID, TRUE);
                 db.createCard_DoneRow(dc);
             }
         });
@@ -109,8 +110,11 @@ public class qanda_activity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Log.v(TAG, "Answer Incorrect");
-                Cards_done dc = new Cards_done(currentCardID,FALSE);
+                Cards_done dc = new Cards_done(currentCardID, FALSE);
                 db.createCard_DoneRow(dc);
+                // +++++++++++++++++++++++++++++++++++++++++++++++
+                // Debug only:
+                // ++++++++++++++++++++++++++++++++++++++++++++++++
                 db.selectAllOfTabletoLog(db.CARDS_DONE_TABLE_NAME);
             }
         });
@@ -137,31 +141,8 @@ public class qanda_activity extends AppCompatActivity {
                 + "\nKategorie ID: " + card.getCategory_id());
 
         tv_qanda_card_question.setText(getString(R.string.tv_qanda_frag_card_question) + " " + card.getQuestion());
-        tv_qanda_card_answer1.setVisibility(View.GONE);
+        tv_qanda_card_answer1.setVisibility(View.INVISIBLE);
         tv_qanda_card_answer1.setText(getString(R.string.tv_qanda_frag_card_answer1) + "\n\n\n " + card.getAnswer1());
-
-    }
-
-
-
-    // Debug only
-    private void insertTestCards() {
-        Card card1 = new Card("Question1_1", "Answer1_1", "Answer2_1", "Answer3_1", "Answer4_1", 20170307,1);
-        Card card2 = new Card("Question1_2", "Answer1_2", "Answer2_2", "Answer3_2", "Answer4_2", 20170308,1);
-        Card card3 = new Card("Question1_3", "Answer1_3", "Answer2_3", "Answer3_3", "Answer4_3", 20170309,1);
-        Card card4 = new Card("Question1_4", "Answer1_4", "Answer2_4", "Answer3_4", "Answer4_4", 20170310,1);
-        long card_id1 = db.createCard(card1);
-        long card_id2 = db.createCard(card2);
-        long card_id3 = db.createCard(card3);
-        long card_id4 = db.createCard(card4);
-        Log.v(TAG, "Inserted IDs: " + String.valueOf(card_id1) + " " + String.valueOf(card_id2) + " " +
-                String.valueOf(card_id3) + " " + String.valueOf(card_id4));
-    }
-
-    private void makeCardDone(int cardID,boolean isCorrect)  {
-        Long tsLong = System.currentTimeMillis()/1000;
-        Cards_done doneCard = new Cards_done(cardID,tsLong,isCorrect);
-
-
+        currentCardID = id;
     }
 }

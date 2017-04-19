@@ -10,6 +10,7 @@ answer2 text,
 answer3 text,
 answer4 text,
 releaseDate int,
+category_id int,
 PRIMARY KEY (id));
 
 create table tb_pulls (
@@ -24,21 +25,26 @@ done_datetime bigint,
 correct tinyint,
 PRIMARY KEY (id));
 
+CREATE TABLE tb_category (
+id int auto_increment,
+category varchar(50),
+pic_filename varchar(50),
+PRIMARY KEY (id));
 
 
 Insert into tb_cards 
-(question,answer1,answer2,answer3,answer4,releaseDate)
+(question,answer1,answer2,answer3,answer4,releaseDate,category_id)
 VALUES
 ('Karte 1 Frage','Karte 1 Antwort 1','Karte 1 Antwort 2','Karte 1 Antwort 3'
-,'Karte 1 Antwort 4',20170310),
+,'Karte 1 Antwort 4',20170310,1),
 ('Karte 2 Frage','Karte 2 Antwort 1','Karte 2 Antwort 2','Karte 2 Antwort 3'
-,'Karte 2 Antwort 4',20170310)
+,'Karte 2 Antwort 4',20170310,1)
 ,('Karte 3 Frage','Karte 3 Antwort 1','Karte 3 Antwort 2','Karte 3 Antwort 3'
-,'Karte 3 Antwort 4',20170310),
+,'Karte 3 Antwort 4',20170310,2),
 ('Karte 4 Frage','Karte 4 Antwort 1','Karte 4 Antwort 2','Karte 4 Antwort 3'
-,'Karte 4 Antwort 4',20170310),
+,'Karte 4 Antwort 4',20170310,2),
 ('Karte 5 Frage','Karte 5 Antwort 1','Karte 5 Antwort 2','Karte 5 Antwort 3'
-,'Karte 5 Antwort 4',20170310);
+,'Karte 5 Antwort 4',20170310,2);
 
 
 
@@ -56,6 +62,14 @@ VALUES
 (3,201701080300,1),
 (2,201701090300,0),
 (1,201701100300,1);
+
+Insert into tb_category
+(category,pic_filename) 
+VALUES
+('Kategorie 1','file1.png'),
+('Kategorie 2','file2.png');
+
+
 
 
 
@@ -115,17 +129,30 @@ tb_cards_done.id
 ;
 
 CREATE VIEW cardsdone AS
-SELECT tb_cards.id, question Frage,answer1 Antwort1,answer2 Antwort2,answer3 Antwort3,answer4 Antwort4,releaseDate Datum,
+SELECT tb_cards.id, question Frage,releaseDate "Release Date",
 tb_cards_done.id DoneID,tb_cards_done.card_id Card_ID,tb_cards_done.done_datetime FertigDatum,correct Richtig
 FROM
 tb_cards,tb_cards_done
 WHERE
 tb_cards.id = tb_cards_done.card_id;
 
+SELECT max(id)
+FROM tb_cards_done;
 
 
+#--------------------------------------
 
-
+SELECT tb_cards.id, question Frage,answer1 Antwort1,answer2 Antwort2,answer3 Antwort3,answer4 Antwort4,releaseDate Datum,
+tb_cards_done.id DoneID,tb_cards_done.card_id Card_ID,tb_cards_done.done_datetime Maxdatetime,correct Richtig,tb_category.category Kategorie,tb_category.pic_filename Filename
+FROM
+tb_cards,tb_cards_done,tb_category
+WHERE
+tb_cards.id = tb_cards_done.card_id AND
+tb_cards.category_id = tb_category.id
+;
+#GROUP BY
+#tb_cards_done.id
+;
 
 
 
