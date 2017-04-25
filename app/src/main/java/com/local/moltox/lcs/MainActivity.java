@@ -98,7 +98,29 @@ public class MainActivity extends AppCompatActivity {
         );
     }
 
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Log.v(TAG, "onRestart Method");
+    }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.v(TAG, "onPause Method");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.v(TAG, "onStop");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.v(TAG,"onDestroy");
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
