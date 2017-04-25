@@ -24,4 +24,5 @@
     <string name="title_activity_debug">DebugActivity</string>
     <string name="title_activity_download">Download</string>
     <string name="title_activity_show_cards">ShowCards</string>
+    <string name="title_activity_fuer_severine">FuerSeverine</string>
 </resources>

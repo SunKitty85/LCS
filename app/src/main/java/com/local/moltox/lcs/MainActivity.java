@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
     Button btn_debugActivity;
     Button btn_download;
     Button btn_showCards;
+    Button btn_severine;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +69,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 callDownloadActivity(v);
+            }
+        });
+        btn_severine = (Button) findViewById(R.id.btn_severine);
+        btn_severine.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                callFuerSeverineActivity(view);
             }
         });
 
@@ -131,6 +139,12 @@ public class MainActivity extends AppCompatActivity {
 
     private void callDownloadActivity(View view) {
         Intent intent = new Intent(this, Download.class);
+        startActivity(intent);
+
+    }
+
+    private void callFuerSeverineActivity(View view) {
+        Intent intent = new Intent(this, FuerSeverine.class);
         startActivity(intent);
     }
 }

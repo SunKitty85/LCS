@@ -57,6 +57,15 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.local.moltox.lcs.MainActivity" />
         </activity>
+        <activity
+            android:name=".FuerSeverine"
+            android:label="@string/title_activity_fuer_severine"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.local.moltox.lcs.MainActivity" />
+        </activity>
     </application>
 
 </manifest>
